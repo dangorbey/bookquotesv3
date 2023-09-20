@@ -71,7 +71,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div style={{
-          backgroundColor: selectedColor?.base || 'initial'
+          backgroundColor: selectedColor?.base ?? 'initial'
         }}>
           Highlight Colors
         </div>
