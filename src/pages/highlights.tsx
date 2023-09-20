@@ -24,12 +24,12 @@ export default function Page() {
         </div>
       </header>
       <main className={styles.main}>
-        <div style={{
+        <div className={styles.highlight} style={{
           backgroundColor: selectedColor?.base ?? 'initial'
         }}>
           Highlight Colors
         </div>
-
+        <div style={{ height: '20px' }}></div>
         <div className={styles.container}>
           {colors.map((color, index) => (
             <button
@@ -45,7 +45,7 @@ export default function Page() {
             />
           ))}
         </div>
-      </main>
+      </main >
     </>
   );
 }

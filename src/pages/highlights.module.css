@@ -19,7 +19,11 @@
   justify-content: center;
   gap: 1em;
   padding: 1em;
+  flex-wrap: wrap;
+  width: 90%;
+  max-width: 640px;
 }
+
 
 .colorButton {
   width: 4em;
@@ -61,4 +65,8 @@
 
 .usrBtn {
   justify-self: end;
+}
+
+.highlight {
+  border-radius: 30px 30px 40px 25px / 25px 10px 40px 15px;
 }

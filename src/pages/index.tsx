@@ -24,7 +24,7 @@ export default function Home() {
           <div style={{ height: '5px' }}></div>
           <div className={styles.buttonHolder}>
             <SignedOut>
-              <SignInButton afterSignInUrl="/highlights">
+              <SignInButton afterSignInUrl="/highlights" afterSignUpUrl="/highlights">
                 <button className={styles.signIn}>Sign In</button>
               </SignInButton>
             </SignedOut>
