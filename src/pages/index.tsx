@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styles from "./index.module.css";
-import { SignInButton, SignOutButton, SignUpButton } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
 
@@ -15,7 +15,7 @@ export default function Home() {
         <div className={styles.container}>
           <h1>Hi there!</h1>
           <p>
-            Welcome to Dan's super cool site.
+            Welcome to Dan&apos;s super cool site.
           </p>
           <p className={styles.directions}>
             Please sign in to continue.
@@ -25,9 +25,6 @@ export default function Home() {
             <SignInButton>
               <button className={styles.signIn}>Sign In</button>
             </SignInButton>
-            {/* <SignOutButton>
-              <button className={styles.signIn}>Sign Out</button>
-            </SignOutButton> */}
           </div>
         </div>
       </main >
