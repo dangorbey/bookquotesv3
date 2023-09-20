@@ -4,43 +4,45 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  color: #2f2f2f;
 }
-
-.main>div:first-child {
-  padding: 1em;
-  color: #000;
-  transition: background-color 0.3s;
-}
-
 
 .container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1em;
-  padding: 1em;
+  gap: .5em;
 }
 
-.colorButton,
-.selectedButton {
-  width: 4em;
-  height: 4em;
-  border-radius: 100%;
-  border: 4px solid transparent;
+.signIn {
+  background-color: #2a2aad;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: medium;
+  padding: .5em 1em;
+  border-style: none;
+}
+
+.directions {
+  font-style: italic;
+  color: rgb(111, 111, 111);
+}
+
+.signIn:hover {
+  background-color: #1a1a7a;
   cursor: pointer;
-  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
-.colorButton:hover,
-.selectedButton:hover {
-  /* Hover color will be handled by JS */
+.signIn:active {
+  background-color: #0e0e43;
+  transform: scale(0.9);
 }
 
-.colorButton:active,
-.selectedButton:active {
-  transform: scale(0.85);
-}
-
-.selectedButton {
-  /* Styles for selected button can be added here if needed */
+.buttonHolder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
 }

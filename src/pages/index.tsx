@@ -1,66 +1,8 @@
 import Head from "next/head";
 import styles from "./index.module.css";
-import { useState } from "react";
+import { SignInButton, SignOutButton, SignUpButton } from "@clerk/nextjs";
 
 export default function Home() {
-
-  const [selected, setSelected] = useState<number | null>(null);
-
-  const colors = [
-    {
-      base: '#FF7792',    // Ultra Red
-      dark: '#E65C7A',
-      darkest: '#B3405F'
-    },
-    {
-      base: '#FFAE77',    // Mac & Cheese (Orange)
-      dark: '#E68F5C',
-      darkest: '#B36F3E'
-    },
-    {
-      base: '#FFFF77',    // Laser Lemon
-      dark: '#E6E65C',
-      darkest: '#C2C239'
-    },
-    {
-      base: '#AEFF77',    // French Lime
-      dark: '#8DE65C',
-      darkest: '#6AB340'
-    },
-    {
-      base: '#77FF92',    // Mint Green
-      dark: '#5CE67A',
-      darkest: '#4AB362'
-    },
-    {
-      base: '#77FFE4',    // Aquamarine
-      dark: '#5CE6C9',
-      darkest: '#40B3A6'
-    },
-    {
-      base: '#77C9FF',    // Maya Blue
-      dark: '#5CAFE6',
-      darkest: '#408FC2'
-    },
-    {
-      base: '#7777FF',    // Slate Blue
-      dark: '#5C5CE6',
-      darkest: '#4242B3'
-    },
-    {
-      base: '#C977FF',    // Heliotrope
-      dark: '#AF5CE6',
-      darkest: '#8C3DB3'
-    },
-    {
-      base: '#FF77E4',    // Violet Web
-      dark: '#E65CC9',
-      darkest: '#B340A2'
-    }
-  ];
-
-  const selectedColor = selected !== null ? colors[selected] : undefined;
-
 
   return (
     <>
@@ -70,28 +12,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div style={{
-          backgroundColor: selectedColor?.base ?? 'initial'
-        }}>
-          Highlight Colors
-        </div>
-
         <div className={styles.container}>
-          {colors.map((color, index) => (
-            <button
-              key={index}
-              className={selected === index ? styles.selectedButton : styles.colorButton}
-              style={{
-                backgroundColor: selected === index ? color.dark : color.base,
-                borderColor: selected === index ? color.darkest : 'transparent'
-              }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = color.dark}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = selected === index ? color.dark : color.base}
-              onClick={() => setSelected(index)}
-            />
-          ))}
+          <h1>Hi there!</h1>
+          <p>
+            Welcome to Dan's super cool site.
+          </p>
+          <p className={styles.directions}>
+            Please sign in to continue.
+          </p>
+          <div style={{ height: '5px' }}></div>
+          <div className={styles.buttonHolder}>
+            <SignInButton>
+              <button className={styles.signIn}>Sign In</button>
+            </SignInButton>
+            {/* <SignOutButton>
+              <button className={styles.signIn}>Sign Out</button>
+            </SignOutButton> */}
+          </div>
         </div>
-      </main>
+      </main >
     </>
   );
 }

@@ -1,0 +1,64 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.main>div:first-child {
+  padding: 1em;
+  color: #000;
+  transition: background-color 0.3s;
+}
+
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  padding: 1em;
+}
+
+.colorButton {
+  width: 4em;
+  height: 4em;
+  border-radius: 100%;
+  border: 4px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: var(--color-base);
+  border-color: transparent;
+}
+
+.colorButton:hover {
+  background-color: var(--color-dark);
+}
+
+.colorButton:active {
+  transform: scale(0.85);
+}
+
+.colorButton[data-selected="true"] {
+  background-color: var(--color-dark);
+  border-color: var(--color-darkest);
+}
+
+.header {
+  background-color: #aff2fa;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 1em;
+  /* Two equal columns */
+
+}
+
+.pageTitle {
+  justify-self: start;
+}
+
+.usrBtn {
+  justify-self: end;
+}
