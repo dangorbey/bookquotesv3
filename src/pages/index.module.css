@@ -23,6 +23,8 @@
   font-size: medium;
   padding: .5em 1em;
   border-style: none;
+  text-decoration: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .directions {

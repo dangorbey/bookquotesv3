@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "./index.module.css";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -22,9 +23,17 @@ export default function Home() {
           </p>
           <div style={{ height: '5px' }}></div>
           <div className={styles.buttonHolder}>
-            <SignInButton afterSignInUrl="/highlights">
-              <button className={styles.signIn}>Sign In</button>
-            </SignInButton>
+            <SignedOut>
+              <SignInButton afterSignInUrl="/highlights">
+                <button className={styles.signIn}>Sign In</button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <SignOutButton>
+                <button className={styles.signIn}>Sign Out</button>
+              </SignOutButton>
+              <Link className={styles.signIn} href="/highlights">Highlights</Link>
+            </SignedIn>
           </div>
         </div>
       </main >
