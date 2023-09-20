@@ -59,6 +59,8 @@ export default function Home() {
     }
   ];
 
+  let selectedColor = selected !== null ? colors[selected] : undefined;
+
 
   return (
     <>
@@ -68,7 +70,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div style={{ backgroundColor: selected !== null ? colors[selected].base : 'initial' }}>
+        <div style={{
+          backgroundColor: selectedColor?.base || 'initial'
+        }}>
           Highlight Colors
         </div>
 
