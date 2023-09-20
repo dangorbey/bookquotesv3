@@ -59,7 +59,7 @@ export default function Home() {
     }
   ];
 
-  let selectedColor = selected !== null ? colors[selected] : undefined;
+  const selectedColor = selected !== null ? colors[selected] : undefined;
 
 
   return (
