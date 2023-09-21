@@ -1,8 +1,17 @@
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, currentUser } from "@clerk/nextjs";
 import Link from "next/link";
 import styles from "./dbtests.module.css";
+import { api } from "~/utils/api";
+
+
+
 
 export default function Page() {
+  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const test = api.greeting.greeting.useQuery({ name: "Fred" });
+
+  // const user = await currentUser();
+
   return (
     <>
       <div className={styles.appContainer}>
@@ -18,14 +27,10 @@ export default function Page() {
         <main className={styles.main}>
           <div className={styles.container}>
             <div className={styles.dbTest}>
-              <p>Let&apos;s save some text to the db.</p>
-              <div style={{ height: '20px' }}></div>
-              <form>
-                <label htmlFor="text">Text</label>
-                <input type="text" id="text" name="text" />
-                <button type="submit">Submit</button>
-
-              </form>
+              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+              <br ></br>
+              <br ></br>
+              {test.data ? test.data.text : "Loading tRPC query..."}
             </div>
           </div>
         </main>
