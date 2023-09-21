@@ -18,7 +18,7 @@ export default function Page() {
         <main className={styles.main}>
           <div className={styles.container}>
             <div className={styles.dbTest}>
-              <p>Let's save some text to the db.</p>
+              <p>Let&apos;s save some text to the db.</p>
               <div style={{ height: '20px' }}></div>
               <form>
                 <label htmlFor="text">Text</label>
