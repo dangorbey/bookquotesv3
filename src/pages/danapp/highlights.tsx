@@ -3,6 +3,7 @@ import styles from "./highlights.module.css";
 import { useState } from "react";
 import { colors } from "../../utils/colors";
 import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 
 export default function Page() {
@@ -20,7 +21,10 @@ export default function Page() {
       <div className={styles.appContainer}>
 
         <header className={styles.header}>
-          <p className={styles.pageTitle}>Highlights Page</p>
+          <nav className={styles.nav}>
+            <p className={styles.pageTitle}>Highlights</p>
+            <Link className={styles.navLink} href="/danapp/dbTests">db Tests</Link>
+          </nav>
           <div className={styles.usrBtn}>
             <UserButton afterSignOutUrl="/" />
           </div>
