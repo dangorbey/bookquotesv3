@@ -2,16 +2,26 @@ import { UserButton, currentUser, useAuth, useSession, useUser } from "@clerk/ne
 import Link from "next/link";
 import styles from "./dbtests.module.css";
 import { RouterOutputs, api } from "~/utils/api";
+import { useState } from "react";
 
 const CreatePostWizard = () => {
   const { user } = useUser();
+  const [input, setInput] = useState("");
+
+  const { mutate } = api.quotes.create.useMutation();
 
   if (!user) return null;
 
   return <div>
-    <p>Hi {user.firstName}!</p>
+    <div style={{ height: '1px', backgroundColor: "#e9e9e9", margin: "20px" }}></div>
+    <p>Hi {user.firstName}, write a quote!</p>
     <div style={{ height: '10px' }}></div>
-    <input placeholder="Type your quote..." />
+    <input placeholder="Type your quote..."
+      type="text"
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+    />
+    <button onClick={() => mutate({ content: input })}>Submit</button>
   </div>
 }
 
@@ -21,7 +31,7 @@ const QuoteView = (props: QuoteWithUser) => {
   const { quote, author } = props;
 
   return (
-    <div>
+    <div style={{ padding: '10px', border: "#e9e9e9 solid 1px", margin: "10px" }}>
       <img style={{ width: "50px", borderRadius: "100%" }} src={author.profileImage} />
       <div>{`@${author.username}`}</div>
       {quote.content}
@@ -30,25 +40,11 @@ const QuoteView = (props: QuoteWithUser) => {
 
 }
 
-// const QuoteView = (props: { quotes: QuoteWithUser }) => {
-//   const { quote, author } = props;
-
-//   return (
-//     <div key={author}>
-//       <img src={author.profilePictureUrl} />
-//       <div>
-//         {quote.quote}
-//       </div>
-//     </div>
-//   )
-// }
 
 
 export default function Page() {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
-  // const test = api.greeting.greeting.useQuery({ name: "Fred" });
-  // const user = currentUser();
-  const { user } = useUser();
+
+  // const { user } = useUser();
 
   const { data, isLoading } = api.quotes.getAll.useQuery();
 
@@ -75,11 +71,7 @@ export default function Page() {
 
               ))}
 
-              {/* <CreatePostWizard /> */}
-              {/* {hello.data ? hello.data.greeting : "Loading tRPC query..."} */}
-              {/* {data?.map((quote) => (
-                <div key={quote.author?.id}>{quote.quote.name}</div>
-              ))} */}
+              <CreatePostWizard />
             </div>
           </div>
         </main>

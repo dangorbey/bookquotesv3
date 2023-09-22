@@ -23,6 +23,5 @@ model Example {
 model Quotes {
   id       Int    @id @default(autoincrement())
   authorId String
-  title    String
   content  String
 }
