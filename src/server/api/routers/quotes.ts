@@ -1,5 +1,5 @@
 import { User } from "@clerk/backend/dist/types/api";
-import { auth, clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 

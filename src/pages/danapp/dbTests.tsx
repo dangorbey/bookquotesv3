@@ -1,7 +1,8 @@
-import { UserButton, currentUser, useAuth, useSession, useUser } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import styles from "./dbtests.module.css";
-import { RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import { useState } from "react";
 
 const CreatePostWizard = () => {
@@ -32,15 +33,13 @@ const QuoteView = (props: QuoteWithUser) => {
 
   return (
     <div style={{ padding: '10px', border: "#e9e9e9 solid 1px", margin: "10px" }}>
-      <img style={{ width: "50px", borderRadius: "100%" }} src={author.profileImage} />
+      <img alt="profile pic" style={{ width: "50px", borderRadius: "100%" }} src={author.profileImage} />
       <div>{`@${author.username}`}</div>
       {quote.content}
     </div>
   )
 
 }
-
-
 
 export default function Page() {
 
