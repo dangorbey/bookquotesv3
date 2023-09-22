@@ -1,4 +1,4 @@
-import { User } from "@clerk/backend/dist/types/api";
+import type { User } from "@clerk/backend/dist/types/api";
 import { clerkClient } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -26,6 +26,41 @@ export const quotesRouter = createTRPCRouter({
     ).map(filterUserForClient);
 
     console.log(users);
+
+    return quotes.map((quote) => {
+      const author = users.find((user) => user.id === quote.authorId);
+
+      if (!author)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Author not found",
+        });
+
+      return {
+        quote,
+        author,
+      };
+    });
+  }),
+
+  getUserQuotes: privateProcedure.query(async ({ ctx }) => {
+    const userId = ctx.userId!;
+    // console.log(`Getting quotes for user ID: ${userId}`);
+    // console.log(ctx);
+
+    const quotes = await ctx.db.quotes.findMany({
+      where: {
+        authorId: userId,
+      },
+      take: 100,
+    });
+
+    const users = (
+      await clerkClient.users.getUserList({
+        userId: quotes.map((quote) => quote.authorId),
+        limit: 100,
+      })
+    ).map(filterUserForClient);
 
     return quotes.map((quote) => {
       const author = users.find((user) => user.id === quote.authorId);

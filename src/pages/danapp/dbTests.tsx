@@ -26,14 +26,14 @@ const CreatePostWizard = () => {
   </div>
 }
 
-type QuoteWithUser = RouterOutputs["quotes"]["getAll"][number];
+type QuoteWithUser = RouterOutputs["quotes"]["getUserQuotes"][number];
 
 const QuoteView = (props: QuoteWithUser) => {
   const { quote, author } = props;
 
   return (
     <div style={{ padding: '10px', border: "#e9e9e9 solid 1px", margin: "10px" }}>
-      <img alt="profile pic" style={{ width: "50px", borderRadius: "100%" }} src={author.profileImage} />
+      {/* <img alt="profile pic" style={{ width: "50px", borderRadius: "100%" }} src={author.profileImage} /> */}
       <div>{`@${author.username}`}</div>
       {quote.content}
     </div>
@@ -45,7 +45,7 @@ export default function Page() {
 
   // const { user } = useUser();
 
-  const { data, isLoading } = api.quotes.getAll.useQuery();
+  const { data, isLoading } = api.quotes.getUserQuotes.useQuery();
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Something went wrong</div>;
