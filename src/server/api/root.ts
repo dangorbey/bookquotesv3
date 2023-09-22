@@ -1,10 +1,7 @@
 import { exampleRouter } from "~/server/api/routers/example";
 import { createTRPCRouter } from "~/server/api/trpc";
+import { quotesRouter } from "./routers/quotes";
 
-import { initTRPC } from "@trpc/server";
-import { greetingRouter } from "./routers/greeting";
-
-const t = initTRPC.create();
 /**
  * This is the primary router for your server.
  *
@@ -12,7 +9,7 @@ const t = initTRPC.create();
  */
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
-  greeting: greetingRouter
+  quotes: quotesRouter
 });
 
 
