@@ -50,7 +50,7 @@ export default function Page() {
   if (isLoading) return (
     <div>
       <Navbar />
-      <div>Loading...</div>;
+      <div>Loading...</div>
     </div>
   );
 
