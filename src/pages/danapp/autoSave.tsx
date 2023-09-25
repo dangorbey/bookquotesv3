@@ -10,7 +10,7 @@ export default function Page() {
         <div className={styles.quoteInput}>
           Dog please,
           <br />
-          I don't understand why this won't work... This is some text.
+          I don&apos;t understand why this won&apos;t work... This is some text.
           <br />
           <br />
           -- ahh yes... love you
