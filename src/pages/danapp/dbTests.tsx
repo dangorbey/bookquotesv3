@@ -1,9 +1,9 @@
-import { UserButton, useUser } from "@clerk/nextjs";
-import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import styles from "./dbtests.module.css";
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import { useState } from "react";
+import Navbar from "~/components/Navbar";
 
 const CreatePostWizard = () => {
   const { user } = useUser();
@@ -47,21 +47,21 @@ export default function Page() {
 
   const { data, isLoading } = api.quotes.getUserQuotes.useQuery();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return (
+    <div>
+      <Navbar />
+      <div>Loading...</div>;
+    </div>
+  );
+
   if (!data) return <div>Something went wrong</div>;
 
   return (
     <>
       <div className={styles.appContainer}>
-        <header className={styles.header}>
-          <nav className={styles.nav}>
-            <p className={styles.pageTitle}>db Tests</p>
-            <Link className={styles.navLink} href="/danapp/highlights">Highlights</Link>
-          </nav>
-          <div className={styles.usrBtn}>
-            <UserButton afterSignOutUrl="/" />
-          </div>
-        </header>
+        <div>
+          <Navbar />
+        </div>
         <main className={styles.main}>
           <div className={styles.container}>
             <div className={styles.dbTest}>

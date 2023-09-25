@@ -2,8 +2,7 @@ import Head from "next/head";
 import styles from "./highlights.module.css";
 import { useState } from "react";
 import { colors } from "../../utils/colors";
-import { UserButton } from "@clerk/nextjs";
-import Link from "next/link";
+import Navbar from "~/components/Navbar";
 
 
 export default function Page() {
@@ -19,16 +18,9 @@ export default function Page() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.appContainer}>
-
-        <header className={styles.header}>
-          <nav className={styles.nav}>
-            <p className={styles.pageTitle}>Highlights</p>
-            <Link className={styles.navLink} href="/danapp/dbTests">db Tests</Link>
-          </nav>
-          <div className={styles.usrBtn}>
-            <UserButton afterSignOutUrl="/" />
-          </div>
-        </header>
+        <div>
+          <Navbar />
+        </div>
         <main className={styles.main}>
           <div className={styles.highlight} style={{
             background: selectedColor?.backgroundImage ?? 'initial'
