@@ -22,8 +22,8 @@ const Navbar = () => {
             <li className={isCurrentPath("/danapp/dbTests") ? styles.active : ""}>
               <Link href="/danapp/dbTests">dbTests</Link>
             </li>
-            <li className={isCurrentPath("/danapp/autoSave") ? styles.active : ""}>
-              <Link href="/danapp/autoSave">autoSave</Link>
+            <li className={isCurrentPath("/danapp/quotes") ? styles.active : ""}>
+              <Link href="/danapp/quotes">quotes</Link>
             </li>
           </ul>
           <div className={styles.button}>
