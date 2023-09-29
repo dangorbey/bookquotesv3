@@ -23,5 +23,5 @@ model Example {
 model Quotes {
   id       Int    @id @default(autoincrement())
   authorId String
-  content  String
+  content  String @db.Text
 }

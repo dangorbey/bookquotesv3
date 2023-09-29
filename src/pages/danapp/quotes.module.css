@@ -1,52 +1,21 @@
-.content {
+.container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* max-width: 800px; */
-  height: calc(100vh - 60px);
+  flex-flow: row wrap;
+  /* align-items: center; */
 }
 
-/*
-  max-width: 800px;
-  margin: 3em auto;
-  background-color: white;
-  height: 500px;
-  border: 10px solid #594255;
-  -webkit-display: -webkit-box;
-  -webkit-display: -webkit-flex;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-*/
-
-.area {
-  max-width: 800px;
-  width: 100%;
-}
-
-.top {
-  background-color: deeppink;
-}
-
-.quoteInput {
-  background-color: aqua;
-}
-
-.bottom {
-  background-color: royalblue;
+.quote {
+  padding: 1em;
+  border: #efefef solid 1px;
+  margin: 10px;
+  max-width: 400px;
+  min-width: 200px;
+  /* max-height: fit-content; */
+  background-color: #fafafa;
 }
 
 .highlight {
   padding: 2px;
-  background-image: linear-gradient(to right, #77FFE4 10%, #88FFEC 30%, rgba(119, 255, 228, 0.7) 90%);
+  background-image: linear-gradient(to right, #FFFF77 10%, #FFFF8D 30%, rgba(255, 255, 119, 0.7) 90%);
   border-radius: 30px 30px 40px 25px / 25px 10px 40px 15px;
 }
