@@ -26,7 +26,7 @@ const EditQuotePage: React.FC = () => {
   const updateMutation = api.quotes.update.useMutation();
 
   const handleSave = () => {
-    (async () => {
+    void (async () => {
       if (!quote) return;
 
       try {
