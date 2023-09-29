@@ -25,22 +25,21 @@ const EditQuotePage: React.FC = () => {
   // Initialize the mutation hook for updating the quote
   const updateMutation = api.quotes.update.useMutation();
 
-  const handleSave = async () => {
-    if (!quote) return;
+  const handleSave = () => {
+    (async () => {
+      if (!quote) return;
 
-    try {
-      // Trigger the mutation to update the quote
-      const updatedQuote = await updateMutation.mutateAsync({
-        id: String(quote.id),  // Convert to string if necessary
-        content: quote.content,
-      });
-      setQuote(updatedQuote);
-
-      // Navigate back to the list of quotes after a successful edit
-      router.push('/danapp/quotes');
-    } catch (error) {
-      console.error("Failed to update the quote:", error);
-    }
+      try {
+        const updatedQuote = await updateMutation.mutateAsync({
+          id: String(quote.id),
+          content: quote.content,
+        });
+        setQuote(updatedQuote);
+        router.push('/danapp/quotes');
+      } catch (error) {
+        console.error("Failed to update the quote:", error);
+      }
+    })();
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -48,7 +47,7 @@ const EditQuotePage: React.FC = () => {
 
   return (
     <div>
-      <textarea value={quote?.content || ''} onChange={(e) => setQuote({ ...quote!, content: e.target.value })} />
+      <textarea value={quote?.content ?? ''} onChange={(e) => setQuote({ ...quote!, content: e.target.value })} />
       <button onClick={handleSave}>Save</button>
     </div>
   );
