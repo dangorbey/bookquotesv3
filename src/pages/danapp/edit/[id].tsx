@@ -35,7 +35,7 @@ const EditQuotePage: React.FC = () => {
           content: quote.content,
         });
         setQuote(updatedQuote);
-        router.push('/danapp/quotes');
+        void router.push('/danapp/quotes');  // Using 'void' here
       } catch (error) {
         console.error("Failed to update the quote:", error);
       }
