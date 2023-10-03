@@ -129,12 +129,16 @@ export const quotesRouter = createTRPCRouter({
       z.object({
         id: z.string(),
         content: z.string(),
+        highlightColor: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const updatedQuote = await ctx.db.quotes.update({
         where: { id: parseInt(input.id) },
-        data: { content: input.content },
+        data: {
+          content: input.content,
+          highlightColor: input.highlightColor,
+        },
       });
 
       if (!updatedQuote) {

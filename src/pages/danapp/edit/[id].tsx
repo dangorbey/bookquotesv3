@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { api } from '~/utils/api';
 import styles from './id.module.css';
 
@@ -9,6 +9,14 @@ type Quote = {
 };
 
 const EditQuotePage: React.FC = () => {
+
+  const colors = [
+    "#35ffe5",
+    "#35ff80",
+    "#ff77cd",
+    "#ffe536"
+  ]
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -16,13 +24,19 @@ const EditQuotePage: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  const [selected, setSelected] = useState<string>(colors[0] as string);
+
   const { data, error, isLoading } = api.quotes.getById.useQuery({ id: id as string });
 
   useEffect(() => {
     if (data) {
       setQuote(data.quote);
+      if (data.quote.highlightColor) {
+        setSelected(data.quote.highlightColor);
+      }
     }
   }, [data]);
+
 
   const updateMutation = api.quotes.update.useMutation();
 
@@ -34,6 +48,7 @@ const EditQuotePage: React.FC = () => {
         const updatedQuote = await updateMutation.mutateAsync({
           id: String(quote.id),
           content: quote.content,
+          highlightColor: selected  // Add this line
         });
         setQuote(updatedQuote);
         void router.push('/danapp/quotes');
@@ -42,6 +57,7 @@ const EditQuotePage: React.FC = () => {
       }
     })();
   };
+
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -63,23 +79,40 @@ const EditQuotePage: React.FC = () => {
   };
 
   const renderParsedContent = (content: string) => {
-    const regex = /(\*\*.*?\*\*)/g;
-    const splitText = content.split(regex);
-
     return (
       <>
-        {splitText.map((text, index) => {
-          if (text.startsWith('**') && text.endsWith('**')) {
-            return <span className={styles.highlight} key={index}>{text.slice(2, -2)}</span>;
-          }
-          return text;
-        })}
+        {content.split('\n').map((line, lineIndex) => (
+          <Fragment key={lineIndex}>
+            {line.split(/(\*\*.*?\*\*)/g).map((text, index) => {
+              if (!text) return null; // Handle possible undefined
+
+              if (text.startsWith('**') && text.endsWith('**')) {
+                return (
+                  <span
+                    className={styles.highlight}
+                    style={{ backgroundColor: selected }}
+                    key={index}
+                  >
+                    {text.slice(2, -2)}
+                  </span>
+                );
+              }
+              return text;
+            })}
+            <br />
+          </Fragment>
+        ))}
       </>
     );
   };
 
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading the quote</div>;
+
+  const poop = () => {
+    console.log("poop");
+  }
 
   return (
     <div className={styles.container}>
@@ -109,43 +142,22 @@ const EditQuotePage: React.FC = () => {
         </>
       )}
 
-
       <div style={{ height: '20px' }}></div>
       <div className={styles.colors}>
-        <div className={`${styles.blue} ${styles.cButton}`}></div>
-        <div className={`${styles.green} ${styles.cButton}`}></div>
-        <div className={`${styles.pink} ${styles.cButton}`}></div>
-        <div className={`${styles.yellow} ${styles.cButton}`}></div>
+        {colors.map((color, index) => (
+          <button
+            key={index}
+            style={{ backgroundColor: color }}
+            className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
+            onClick={() => setSelected(color)}
+          />
+
+        ))}
       </div>
       <div style={{ height: '20px' }}></div>
       <button onClick={handleSave}>Save</button>
     </div >
-
   );
 }
 
 export default EditQuotePage;
-
-
-// const renderParsedContent = (content: string) => {
-//   const regex = /(\*\*.*?\*\*)/g;
-//   const splitText = content.split(regex);
-
-//   const renderedContent = splitText.map((text, index) => {
-//     if (text.startsWith('**') && text.endsWith('**')) {
-//       return <span className={styles.highlight} key={index}>{text.slice(2, -2)}</span>;
-//     }
-
-//     // Parse newline characters and return them as line breaks
-//     const lines = text.split('\n').map((line, lineIndex) => (
-//       <div key={lineIndex}>
-//         {line}
-//         {lineIndex !== text.split('\n').length - 1 && <br />}
-//       </div>
-//     ));
-
-//     return lines;
-//   });
-
-//   return <>{renderedContent}</>;
-// };

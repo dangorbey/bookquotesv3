@@ -16,7 +16,9 @@
   background-color: white;
   padding: 2em;
   border: none;
-  width: 540px;
+  width: 90%;
+  max-width: 540px;
+  max-height: 657px;
   aspect-ratio: 4/5;
   line-height: 140%;
   overflow: auto;
@@ -26,7 +28,9 @@
   background-color: white;
   padding: 2em;
   border: none;
-  width: 540px;
+  width: 80%;
+  max-width: 540px;
+  max-height: 657px;
   aspect-ratio: 4/5;
   line-height: 140%;
 }
@@ -38,7 +42,9 @@
 }
 
 .highlight {
-  background-color: aqua;
+  /* background-color: aqua; */
+  padding: .1em .3em;
+  border-radius: 30px 30px 40px 25px / 25px 10px 40px 15px;
 }
 
 .hoverText {
@@ -66,7 +72,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: solid 2px #444444;
+  border: 2px none;
   cursor: pointer;
 }
 
@@ -80,18 +86,6 @@
   transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
 }
 
-.blue {
-  background-color: #35ffe5;
-}
-
-.green {
-  background-color: #35ff80;
-}
-
-.pink {
-  background-color: #ff35b4;
-}
-
-.yellow {
-  background-color: #ffe536;
+.selected {
+  border: solid 2px #5e5e5e;
 }

@@ -25,7 +25,7 @@ export default function Home() {
           <div style={{ height: '5px' }}></div>
           <div className={styles.buttonHolder}>
             <SignedOut>
-              <SignInButton afterSignInUrl="/danapp/highlights" afterSignUpUrl="/danapp/highlights">
+              <SignInButton afterSignInUrl="/danapp/quotes" afterSignUpUrl="/danapp/quotes">
                 <button className={styles.signIn}>Sign In</button>
               </SignInButton>
             </SignedOut>
@@ -33,7 +33,7 @@ export default function Home() {
               <SignOutButton>
                 <button className={styles.signIn}>Sign Out</button>
               </SignOutButton>
-              <Link className={styles.signIn} href="/danapp/highlights">Highlights</Link>
+              <Link className={styles.signIn} href="/danapp/quotes">Quotes</Link>
             </SignedIn>
           </div>
         </div>
