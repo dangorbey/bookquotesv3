@@ -5,17 +5,26 @@
 }
 
 .quote {
-  padding: 1em;
+  padding: 2em;
   border: #efefef solid 1px;
   margin: 10px;
-  max-width: 400px;
-  min-width: 200px;
+  max-width: 500px;
+  min-width: 100px;
   /* max-height: fit-content; */
   background-color: #fafafa;
+  line-height: 140%;
 }
 
 .highlight {
   padding: 2px;
   background-image: linear-gradient(to right, #FFFF77 10%, #FFFF8D 30%, rgba(255, 255, 119, 0.7) 90%);
   border-radius: 30px 30px 40px 25px / 25px 10px 40px 15px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  padding: 100px;
 }

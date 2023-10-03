@@ -45,7 +45,7 @@ export default function Page() {
 
   // const { user } = useUser();
 
-  const { data, isLoading } = api.quotes.getUserQuotes.useQuery();
+  const { data, isLoading } = api.quotes.getAll.useQuery();
 
   if (isLoading) return (
     <div>

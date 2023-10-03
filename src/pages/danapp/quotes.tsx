@@ -8,30 +8,35 @@ function QuoteListPage() {
 
   // Function to highlight content within asterisks
   const formatQuoteContent = (content: string) => {
-    // Using regex to replace **some content** with <span className={styles.highlight}>some content</span>
-    return content.replace(/\*\*(.*?)\*\*/g, `<span class="${styles.highlight}">$1</span>`);
-  };
+    const parts = content.split(/\*\*(.*?)\*\*/).map((part, index) =>
+      index % 2 === 0 ? part : <span className={styles.highlight} key={index}>{part}</span>
+    );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!data) return <div>Something went wrong</div>;
+    return parts;
+  };
 
   return (
     <div>
       <Navbar />
-      {isLoading && <div>Loading...</div>}
-      {!data && <div>Something went wrong</div>}
-      <div className={styles.container}>
-        {data?.map((fullQuote) => (
-          <div className={styles.quote} key={fullQuote.quote.id}>
-            {/* Using dangerouslySetInnerHTML to render the formatted content */}
-            <div dangerouslySetInnerHTML={{ __html: formatQuoteContent(fullQuote.quote.content) }}></div>
-            <div style={{ height: '10px' }}></div>
-            <Link className={styles.edit} href={`/danapp/edit/${fullQuote.quote.id}`}>Edit</Link>
-          </div>
-        ))}
-      </div>
+
+      {isLoading && <div className={styles.loading}>Loading...</div>}
+
+      {!data && !isLoading && <div>Something went wrong</div>}
+
+      {data && (
+        <div className={styles.container}>
+          {data.map((fullQuote) => (
+            <div className={styles.quote} key={fullQuote.quote.id}>
+              <div>{formatQuoteContent(fullQuote.quote.content)}</div>
+              <div style={{ height: '10px' }}></div>
+              <Link className={styles.edit} href={`/danapp/edit/${fullQuote.quote.id}`}>Edit</Link>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 export default QuoteListPage;
+
