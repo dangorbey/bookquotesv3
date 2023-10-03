@@ -103,8 +103,12 @@ const EditQuotePage: React.FC = () => {
         <textarea
           autoFocus
           className={styles.quoteEdit}
-          value={quote?.content ?? ''}
-          onChange={(e) => setQuote({ ...quote!, content: e.target.value })}
+          value={quote?.content!}
+          // onChange={(e) => setQuote({ ...quote!, content: e.target.value })}
+          onChange={(e) => {
+            // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
+            setQuote({ ...quote!, content: e.target.value });
+          }}
 
           onBlur={handleBlur}
         />
