@@ -22,7 +22,6 @@ const EditQuotePage: React.FC = () => {
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const [selected, setSelected] = useState<string>(colors[0] as string);
 
@@ -37,7 +36,6 @@ const EditQuotePage: React.FC = () => {
     }
   }, [data]);
 
-
   const updateMutation = api.quotes.update.useMutation();
 
   const handleSave = () => {
@@ -48,7 +46,7 @@ const EditQuotePage: React.FC = () => {
         const updatedQuote = await updateMutation.mutateAsync({
           id: String(quote.id),
           content: quote.content,
-          highlightColor: selected  // Add this line
+          highlightColor: selected
         });
         setQuote(updatedQuote);
         void router.push('/danapp/quotes');
@@ -58,24 +56,14 @@ const EditQuotePage: React.FC = () => {
     })();
   };
 
-
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleBlur = () => {
-    // Introduce a short delay before exiting edit mode
     setTimeout(() => {
       setIsEditing(false);
     }, 150);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
   };
 
   const renderParsedContent = (content: string) => {
@@ -84,7 +72,7 @@ const EditQuotePage: React.FC = () => {
         {content.split('\n').map((line, lineIndex) => (
           <Fragment key={lineIndex}>
             {line.split(/(\*\*.*?\*\*)/g).map((text, index) => {
-              if (!text) return null; // Handle possible undefined
+              if (!text) return null;
 
               if (text.startsWith('**') && text.endsWith('**')) {
                 return (
@@ -106,7 +94,6 @@ const EditQuotePage: React.FC = () => {
     );
   };
 
-
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading the quote</div>;
 
@@ -117,27 +104,22 @@ const EditQuotePage: React.FC = () => {
           autoFocus
           className={styles.quoteEdit}
           value={quote?.content ?? ''}
-          onChange={(e) => setQuote({ ...quote!, content: e.target.value })}
+          onChange={(e) => setQuote(quote ? { ...quote, content: e.target.value } : null)}
           onBlur={handleBlur}
         />
       ) : (
         <>
           <div
             className={styles.quote}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
             onClick={handleEdit}
           >
             <div className={styles.quoteContent}>
               {renderParsedContent(quote?.content ?? '')}
             </div>
-
             <span className={styles.hoverText}>Click on the quote to edit</span>
           </div>
-
         </>
       )}
-
       <div style={{ height: '20px' }}></div>
       <div className={styles.colors}>
         {colors.map((color, index) => (
@@ -147,7 +129,6 @@ const EditQuotePage: React.FC = () => {
             className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
             onClick={() => setSelected(color)}
           />
-
         ))}
       </div>
       <div style={{ height: '20px' }}></div>

@@ -17,12 +17,12 @@ function QuoteListPage() {
     if (!user) return;
 
     try {
-      const result = await mutate(
+      await mutate(
         { content: defaultQuote },
         {
           onSuccess: (data) => {
             if (data?.id) {
-              router.push(`/danapp/edit/${data.id}`);
+              void router.push(`/danapp/edit/${data.id}`); // Explicitly ignore the promise
             } else {
               console.error("Failed to get the ID of the new quote.");
             }
@@ -32,18 +32,10 @@ function QuoteListPage() {
           },
         }
       );
-
-      // If needed, you can use the result here.
-      // For example:
-      // if (result.someCondition) {
-      //    // Handle the result
-      // }
-
     } catch (error) {
       console.error("Mutation error:", error);
     }
   };
-
 
   const formatQuoteContent = (content: string, highlightColor: string) => {
     const parts = content.split(/\*\*(.*?)\*\*/).map((part, index) =>
