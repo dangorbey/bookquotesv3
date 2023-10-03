@@ -105,10 +105,10 @@ const EditQuotePage: React.FC = () => {
           className={styles.quoteEdit}
           value={quote?.content}
           onChange={(e) => {
-            if (quote) {
-              setQuote({ ...quote, content: e.target.value });
-            }
+            if (!quote) return;
+            setQuote({ ...quote, content: e.target.value });
           }}
+
           onBlur={handleBlur}
         />
       ) : (
