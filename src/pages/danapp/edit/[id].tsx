@@ -103,9 +103,12 @@ const EditQuotePage: React.FC = () => {
         <textarea
           autoFocus
           className={styles.quoteEdit}
-          value={quote?.content!}
-          onChange={(e) => setQuote({ ...quote!, content: e.target.value })}
-
+          value={quote?.content}
+          onChange={(e) => {
+            if (quote) {
+              setQuote({ ...quote, content: e.target.value });
+            }
+          }}
           onBlur={handleBlur}
         />
       ) : (
@@ -120,8 +123,7 @@ const EditQuotePage: React.FC = () => {
             <span className={styles.hoverText}>Click on the quote to edit</span>
           </div>
         </>
-      )}
-      <div style={{ height: '20px' }}></div>
+      )}      <div style={{ height: '20px' }}></div>
       <div className={styles.colors}>
         {colors.map((color, index) => (
           <button
