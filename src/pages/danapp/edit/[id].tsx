@@ -104,7 +104,8 @@ const EditQuotePage: React.FC = () => {
           autoFocus
           className={styles.quoteEdit}
           value={quote?.content ?? ''}
-          onChange={(e) => setQuote(quote ? { ...quote, content: e.target.value } : null)}
+          onChange={(e) => setQuote({ ...quote!, content: e.target.value })}
+
           onBlur={handleBlur}
         />
       ) : (

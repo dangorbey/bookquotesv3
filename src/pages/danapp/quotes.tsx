@@ -13,29 +13,26 @@ function QuoteListPage() {
   const router = useRouter();
   const { user } = useUser();
 
-  const handleCreateNewQuote = async () => {
+  const handleCreateNewQuote = () => {
     if (!user) return;
 
-    try {
-      await mutate(
-        { content: defaultQuote },
-        {
-          onSuccess: (data) => {
-            if (data?.id) {
-              void router.push(`/danapp/edit/${data.id}`); // Explicitly ignore the promise
-            } else {
-              console.error("Failed to get the ID of the new quote.");
-            }
-          },
-          onError: (error) => {
-            console.error("Error creating a new quote:", error);
-          },
-        }
-      );
-    } catch (error) {
-      console.error("Mutation error:", error);
-    }
+    mutate(
+      { content: defaultQuote },
+      {
+        onSuccess: (data) => {
+          if (data?.id) {
+            void router.push(`/danapp/edit/${data.id}`); // Explicitly ignore the promise
+          } else {
+            console.error("Failed to get the ID of the new quote.");
+          }
+        },
+        onError: (error) => {
+          console.error("Error creating a new quote:", error);
+        },
+      }
+    );
   };
+
 
   const formatQuoteContent = (content: string, highlightColor: string) => {
     const parts = content.split(/\*\*(.*?)\*\*/).map((part, index) =>
@@ -59,7 +56,13 @@ function QuoteListPage() {
       <Navbar />
 
       <div className={styles.createButtonContainer}>
-        <button className={styles.createButton} onClick={handleCreateNewQuote}>Create a new quote!</button>
+        <button
+          className={styles.createButton}
+          onClick={() => { void handleCreateNewQuote(); }}
+        >
+          Create a new quote!
+        </button>
+
       </div>
 
       {isLoading && <div className={styles.loading}>Loading...</div>}
