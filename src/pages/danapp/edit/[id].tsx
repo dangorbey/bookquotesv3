@@ -22,7 +22,6 @@ const EditQuotePage: React.FC = () => {
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const [selected, setSelected] = useState<string>(colors[0] as string);
 
@@ -70,14 +69,6 @@ const EditQuotePage: React.FC = () => {
     }, 150);
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
   const renderParsedContent = (content: string) => {
     return (
       <>
@@ -118,7 +109,9 @@ const EditQuotePage: React.FC = () => {
           className={styles.quoteEdit}
           value={quote?.content ?? ''}
           // onChange={(e) => setQuote({ ...quote!, content: e.target.value })}
-          onChange={(e) => setQuote(quote ? { ...quote, content: e.target.value } : null)}
+          // onChange={(e) => setQuote(quote ? { ...quote, content: e.target.value } : null)}
+          onChange={(e) => setQuote({ ...quote!, content: e.target.value })}
+
 
           onBlur={handleBlur}
         />
@@ -126,8 +119,6 @@ const EditQuotePage: React.FC = () => {
         <>
           <div
             className={styles.quote}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
             onClick={handleEdit}
           >
             <div className={styles.quoteContent}>
