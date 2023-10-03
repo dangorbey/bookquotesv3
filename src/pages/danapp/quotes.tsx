@@ -13,32 +13,32 @@ function QuoteListPage() {
   const router = useRouter();
   const { user } = useUser();
 
-  const handleCreateNewQuote = async () => {
+  const handleCreateNewQuote = () => {
     if (!user) return;
 
-    try {
-      // Mutate without waiting for a return value.
-      await mutate(
-        { content: defaultQuote },
-        {
-          onSuccess: (data) => {
-            // Assuming the response data has the id of the new quote
-            if (data && data.id) {
-              router.push(`/danapp/edit/${data.id}`);
-            } else {
-              console.error("Failed to get the ID of the new quote.");
+    // Wrap the contents in an immediately invoked async function
+    (async () => {
+      try {
+        await mutate(
+          { content: defaultQuote },
+          {
+            onSuccess: (data) => {
+              if (data?.id) {  // Using optional chaining
+                router.push(`/danapp/edit/${data.id}`);
+              } else {
+                console.error("Failed to get the ID of the new quote.");
+              }
+            },
+            onError: (error) => {
+              console.error("Error creating a new quote:", error);
             }
-          },
-          onError: (error) => {
-            console.error("Error creating a new quote:", error);
           }
-        }
-      );
-    } catch (error) {
-      console.error("Mutation error:", error);
-    }
+        );
+      } catch (error) {
+        console.error("Mutation error:", error);
+      }
+    })();
   };
-
 
   const formatQuoteContent = (content: string, highlightColor: string) => {
     const parts = content.split(/\*\*(.*?)\*\*/).map((part, index) =>

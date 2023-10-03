@@ -110,10 +110,6 @@ const EditQuotePage: React.FC = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading the quote</div>;
 
-  const poop = () => {
-    console.log("poop");
-  }
-
   return (
     <div className={styles.container}>
       {isEditing ? (
