@@ -97,6 +97,10 @@ const EditQuotePage: React.FC = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading the quote</div>;
 
+  const poop = () => {
+    console.log('poop');
+  }
+
   return (
     <div className={styles.container}>
       {isEditing ? (
@@ -104,10 +108,11 @@ const EditQuotePage: React.FC = () => {
           autoFocus
           className={styles.quoteEdit}
           value={quote?.content}
-          onChange={(e) => {
-            if (!quote) return;
-            setQuote({ ...quote, content: e.target.value });
-          }}
+          // onChange={(e) => {
+          //   if (!quote) return;
+          //   setQuote({ ...quote, content: e.target.value });
+          // }}
+          onChange={poop}
 
           onBlur={handleBlur}
         />
