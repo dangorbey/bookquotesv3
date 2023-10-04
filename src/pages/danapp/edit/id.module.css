@@ -22,10 +22,13 @@
   aspect-ratio: 4/5;
   line-height: 140%;
   overflow: auto;
+  background-image: url('/paper-page-bg-01.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .quoteEdit {
-  background-color: white;
+  /* background-color: white; */
   padding: 2em;
   border: none;
   width: 80%;

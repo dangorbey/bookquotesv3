@@ -151,6 +151,26 @@ export const quotesRouter = createTRPCRouter({
       return updatedQuote;
     }),
 
+  delete: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }))
+    .mutation(async ({ ctx, input }) => {
+      const quoteId = parseInt(input.id);
+      const deletedQuote = await ctx.db.quotes.delete({
+        where: { id: quoteId },
+      });
+
+      if (!deletedQuote) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to delete the quote",
+        });
+      }
+      return deletedQuote;
+    }),
+
 });
 
 // Procedure to get a single quote by ID

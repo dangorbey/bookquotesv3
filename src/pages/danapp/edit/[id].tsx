@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { api } from '~/utils/api';
 import styles from './id.module.css';
 
+
 type Quote = {
   id: number;
   content: string;
@@ -14,7 +15,7 @@ const EditQuotePage: React.FC = () => {
     "#35ffe5",
     "#35ff80",
     "#ff77cd",
-    "#ffe536"
+    "#ffe536",
   ]
 
   const router = useRouter();
@@ -136,11 +137,11 @@ const EditQuotePage: React.FC = () => {
             className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
             onClick={() => setSelected(color)}
           />
-
         ))}
       </div>
       <div style={{ height: '20px' }}></div>
       <button onClick={handleSave}>Save</button>
+
     </div >
   );
 }

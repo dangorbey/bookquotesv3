@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 const defaultQuote = "1. Click to edit!\n\n2. Any text you place **within two sets of asterisks** will be highlighted!\n\n3. Have fun!"
 
 function QuoteListPage() {
-  const { data, isLoading } = api.quotes.getUserQuotes.useQuery();
+  const { data, isLoading, refetch } = api.quotes.getUserQuotes.useQuery();
   const { mutate } = api.quotes.create.useMutation();
   const router = useRouter();
   const { user } = useUser();
@@ -21,7 +21,7 @@ function QuoteListPage() {
       {
         onSuccess: (data) => {
           if (data?.id) {
-            void router.push(`/danapp/edit/${data.id}`); // Explicitly ignore the promise
+            void router.push(`/danapp/edit/${data.id}`);
           } else {
             console.error("Failed to get the ID of the new quote.");
           }
@@ -32,7 +32,6 @@ function QuoteListPage() {
       }
     );
   };
-
 
   const formatQuoteContent = (content: string, highlightColor: string) => {
     const parts = content.split(/\*\*(.*?)\*\*/).map((part, index) =>
@@ -50,6 +49,27 @@ function QuoteListPage() {
     return parts;
   };
 
+  const { mutate: deleteMutate } = api.quotes.delete.useMutation();
+
+  const handleDeleteQuote = (quoteId: number) => {
+    if (!user) return;
+
+    const isConfirmed = window.confirm("Are you sure you want to delete this quote?");
+
+    if (!isConfirmed) return;
+
+    deleteMutate(
+      { id: quoteId.toString() },
+      {
+        onSuccess: () => {
+          void refetch();
+        },
+        onError: (error) => {
+          console.error("Error deleting the quote:", error);
+        },
+      }
+    );
+  };
 
   return (
     <div>
@@ -74,8 +94,18 @@ function QuoteListPage() {
           {data.map((fullQuote) => (
             <div className={styles.quote} key={fullQuote.quote.id}>
               <div>{formatQuoteContent(fullQuote.quote.content, fullQuote.quote.highlightColor ?? "#FFFF77")}</div>
-              <div style={{ height: '10px' }}></div>
-              <Link className={styles.edit} href={`/danapp/edit/${fullQuote.quote.id}`}>Edit</Link>
+              <div style={{ height: '15px' }}></div>
+              <div className={styles.qButtons}>
+                <button className={styles.commonButtonStyle}>
+                  <Link className={styles.edit} href={`/danapp/edit/${fullQuote.quote.id}`}>Edit</Link>
+                </button>
+                <button
+                  className={`${styles.commonButtonStyle} ${styles.deleteButton}`}
+                  onClick={() => handleDeleteQuote(fullQuote.quote.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
 
@@ -86,4 +116,3 @@ function QuoteListPage() {
 }
 
 export default QuoteListPage;
-
