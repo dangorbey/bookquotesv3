@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Navbar from "~/components/Navbar";
-import pic from '/public/Quote Ref-001.png'
+import pic from '/public/Quote Ref-003.png'
 import styles from './vision.module.css'
 
 export default function Page() {
