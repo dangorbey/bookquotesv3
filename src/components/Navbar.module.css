@@ -26,7 +26,7 @@
   list-style: none;
   text-decoration: none;
   display: flex;
-  gap: 10px;
+  gap: 6px;
 }
 
 .button {
@@ -37,7 +37,7 @@
 }
 
 .navList li {
-  width: 80px;
+  width: 75px;
   /* Choose a width that accommodates the bold text */
   text-align: center;
   /* To keep the text centered */

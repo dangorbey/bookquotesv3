@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navbar from "~/components/Navbar";
+import Spacer from "~/components/Spacer";
 import { api } from "~/utils/api";
 import styles from "./quotes.module.css";
 import { useUser } from "@clerk/nextjs";
@@ -95,6 +96,7 @@ function QuoteListPage() {
             <div className={styles.quote} key={fullQuote.quote.id}>
               <div>{formatQuoteContent(fullQuote.quote.content, fullQuote.quote.highlightColor ?? "#FFFF77")}</div>
               <div style={{ height: '15px' }}></div>
+              <Spacer height={15}></Spacer>
               <div className={styles.qButtons}>
                 <button className={styles.commonButtonStyle}>
                   <Link className={styles.edit} href={`/danapp/edit/${fullQuote.quote.id}`}>Edit</Link>
