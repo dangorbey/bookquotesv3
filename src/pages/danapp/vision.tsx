@@ -10,7 +10,12 @@ export default function Page() {
       <div className={styles.container}>
         <h1 className={styles.imageTitle}>v1 visual style:</h1>
         <div className={styles.imageWrapper}>
-          <Image src={pic} alt='Quote Visual Reference' className={styles.quote} />
+          <Image
+            src={pic}
+            alt='Quote Visual Reference'
+            className={styles.quote}
+            placeholder="blur"
+          />
         </div>
       </div>
     </div>
