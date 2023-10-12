@@ -21,6 +21,7 @@
     "@trpc/server": "^10.37.1",
     "@types/html2canvas": "^1.0.0",
     "axios": "^1.5.1",
+    "canvg": "^4.0.1",
     "context-filter-polyfill": "^0.3.6",
     "fs": "^0.0.1-security",
     "html-to-image": "^1.11.11",

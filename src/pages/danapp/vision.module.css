@@ -7,16 +7,14 @@
   padding: 20px;
 }
 
-.canvasFrame {
-  max-width: 500px;
-  max-height: 500px;
-  width: 100%;
-  height: auto;
-}
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-.canvasFrame svg {
-  width: 100%;
-  height: auto;
+  aspect-ratio: 1/1;
+  max-width: 540px;
+  max-height: 540px;
 }
 
 .frame {
@@ -25,7 +23,7 @@
   align-items: center;
   overflow: hidden;
 
-  font-family: "rosarivo", serif;
+  font-family: "fanwood", serif;
   padding: 40px;
   font-size: 22pt;
   line-height: 110%;
@@ -38,11 +36,12 @@
   background-image:
     url('/noise20.png'),
     /* Overlay color */
-    linear-gradient(to right, rgba(204, 174, 139, 0.7), rgba(231, 212, 189, 0.7)),
+    linear-gradient(to right, rgba(204, 174, 139, 0.7), rgba(231, 212, 189, 0.5)),
     /* Book Spine Gradient */
-    linear-gradient(76deg, rgba(0, 0, 0, .3) 0%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(76deg, rgba(0, 0, 0, .3) 0%, rgba(0, 0, 0, 0) 50%),
     /* Paper texture */
-    url('/paper-page-bg-01.jpg');
+    url('/paper-bg-01.jpg');
+
 
   background-blend-mode:
     multiply,
@@ -88,9 +87,6 @@
 
 
 .highlight {
-  /* background: url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=ffff45d8); */
-  /* color: #ffff45d8; */
-  /* background: rgb(255, 254, 0); */
   background: linear-gradient(90deg, rgba(255, 254, 0, 1) 0%, rgba(255, 254, 0, 0.6) 3%, rgba(255, 254, 0, 0.8));
   background-repeat: no-repeat;
   border-radius: 35px;
