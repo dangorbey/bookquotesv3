@@ -7,40 +7,47 @@
   padding: 20px;
 }
 
+.canvasFrame {
+  max-width: 500px;
+  max-height: 500px;
+  width: 100%;
+  height: auto;
+}
+
+.canvasFrame svg {
+  width: 100%;
+  height: auto;
+}
+
 .frame {
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
 
-  font-family: "dapifer", serif;
+  font-family: "rosarivo", serif;
   padding: 40px;
   font-size: 22pt;
-  line-height: 130%;
+  line-height: 110%;
   font-weight: 500;
 
   aspect-ratio: 1/1;
-  width: 540px;
-  height: 540px;
+  max-width: 540px;
+  max-height: 540px;
 
   background-image:
-    /* Noise texture (assuming it's called 'noise.png' in the root folder) */
     url('/noise20.png'),
-
     /* Overlay color */
     linear-gradient(to right, rgba(204, 174, 139, 0.7), rgba(231, 212, 189, 0.7)),
-
-    /* Your original gradient */
+    /* Book Spine Gradient */
     linear-gradient(76deg, rgba(0, 0, 0, .3) 0%, rgba(255, 255, 255, 0) 100%),
-
-    /* Base image */
+    /* Paper texture */
     url('/paper-page-bg-01.jpg');
 
   background-blend-mode:
     multiply,
     overlay,
     multiply;
-  /* The list of blend modes applies to the stacked background images/gradients in the reverse order */
 
   background-repeat: no-repeat;
   background-size: cover;
@@ -49,7 +56,7 @@
 .quote,
 .blur,
 .highlight {
-  font-family: "dapifer", serif;
+  font-family: "fanwood", serif;
 }
 
 .textFrame {
@@ -61,12 +68,12 @@
 
 .mirror {
   position: absolute;
-  line-height: 140%;
+  line-height: 150%;
   top: 0;
   left: 0;
   transform: scaleX(-1) scale(0.90);
   filter: blur(5px);
-  opacity: 0.15;
+  opacity: 0.1;
   left: 10px;
   top: 20px;
   width: 100%;
@@ -79,8 +86,15 @@
   opacity: 40%;
 }
 
+
 .highlight {
-  font-weight: 600;
-  background-color: hsla(57, 100%, 50%, 0.493);
-  /* border-radius: 30px 30px 40px 25px / 25px 10px 40px 15px; */
+  /* background: url(//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=ffff45d8); */
+  /* color: #ffff45d8; */
+  /* background: rgb(255, 254, 0); */
+  background: linear-gradient(90deg, rgba(255, 254, 0, 1) 0%, rgba(255, 254, 0, 0.6) 3%, rgba(255, 254, 0, 0.8));
+  background-repeat: no-repeat;
+  border-radius: 35px;
+  background-size: 100% 55%;
+  background-position: center 60%;
+  box-decoration-break: clone;
 }
