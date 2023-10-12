@@ -7,14 +7,14 @@ interface ApiResponse {
 }
 
 
-function getDownloadCount(): number {
-  const storedCount = localStorage.getItem('downloadCount');
-  return storedCount ? parseInt(storedCount) : 0;
-}
+// function getDownloadCount(): number {
+//   const storedCount = localStorage.getItem('downloadCount');
+//   return storedCount ? parseInt(storedCount) : 0;
+// }
 
-function setDownloadCount(count: number) {
-  localStorage.setItem('downloadCount', count.toString());
-}
+// function setDownloadCount(count: number) {
+//   localStorage.setItem('downloadCount', count.toString());
+// }
 
 function wrapText(text: string, maxLength: number): string[] {
   const words = text.split(' ');
@@ -74,11 +74,11 @@ function SVGDownloadComponent() {
 
 
 
-  const handleDownload = () => {
-    if (svgRef.current) {
-      downloadSvgAsPng(svgRef.current);
-    }
-  };
+  // const handleDownload = () => {
+  //   if (svgRef.current) {
+  //     downloadSvgAsPng(svgRef.current);
+  //   }
+  // };
 
   return (
     <div>
@@ -132,36 +132,36 @@ function SVGDownloadComponent() {
         </text>
 
       </svg>
-      <button onClick={handleDownload}>Download as PNG</button>
+      {/* <button onClick={handleDownload}>Download as PNG</button> */}
     </div>
   );
 }
 
-function downloadSvgAsPng(svgEl: SVGSVGElement) {
-  const data = new XMLSerializer().serializeToString(svgEl);
-  const blob = new Blob([data], { type: 'image/svg+xml' });
-  const url = URL.createObjectURL(blob);
+// function downloadSvgAsPng(svgEl: SVGSVGElement) {
+//   const data = new XMLSerializer().serializeToString(svgEl);
+//   const blob = new Blob([data], { type: 'image/svg+xml' });
+//   const url = URL.createObjectURL(blob);
 
-  const img = new Image();
-  img.onload = function () {
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    ctx!.drawImage(img, 0, 0);
-    canvas.toBlob((blob) => {
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob!);
-      let currentCount = getDownloadCount();
-      currentCount += 1;
-      setDownloadCount(currentCount); // Store updated count
-      link.download = `downloaded_image-${currentCount}.png`; // Append count to filename
-      link.click();
-      URL.revokeObjectURL(url);
-    }, 'image/png');
-  };
+//   const img = new Image();
+//   img.onload = function () {
+//     const canvas = document.createElement('canvas');
+//     canvas.width = img.width;
+//     canvas.height = img.height;
+//     const ctx = canvas.getContext('2d');
+//     ctx!.drawImage(img, 0, 0);
+//     canvas.toBlob((blob) => {
+//       const link = document.createElement('a');
+//       link.href = URL.createObjectURL(blob!);
+//       let currentCount = getDownloadCount();
+//       currentCount += 1;
+//       setDownloadCount(currentCount); // Store updated count
+//       link.download = `downloaded_image-${currentCount}.png`; // Append count to filename
+//       link.click();
+//       URL.revokeObjectURL(url);
+//     }, 'image/png');
+//   };
 
-  img.src = url;
-}
+//   img.src = url;
+// }
 
 export default SVGDownloadComponent;
