@@ -71,62 +71,33 @@ const EditQuotePage: React.FC = () => {
   };
 
   const renderParsedContent = (content: string) => {
-    const lorem = "Nullam tempus eget erat a scelerisque. Curabitur ut dolor id est eleifend eleifend ut ut nibh. Nulla leo neque, faucibus non nulla vel, blandit convallis nunc. Pellentesque quis blandit libero. ";
-
     return (
-      <div className={styles.textFrame}>
-        <div className={styles.content}>
-          <div className={styles.blur}>{lorem + lorem + lorem}</div>
-          <div className={styles.quote}>
-            <br />
-            {content.split('\n').map((line, lineIndex) => (
-              <Fragment key={lineIndex}>
-                {line.split(/(\*\*.*?\*\*)/g).map((text, index) => {
-                  if (!text) return null; // Handle possible undefined
+      <>
+        {content.split('\n').map((line, lineIndex) => (
+          <Fragment key={lineIndex}>
+            {line.split(/(\*\*.*?\*\*)/g).map((text, index) => {
+              if (!text) return null; // Handle possible undefined
 
-                  if (text.startsWith('**') && text.endsWith('**')) {
-                    return (
-                      <span
-                        className={styles.highlight}
-                        style={{ backgroundColor: selected }}
-                        key={index}
-                      >
-                        {text.slice(2, -2)}
-                      </span>
-                    );
-                  }
-                  return text;
-                })}
-                <br />
-                <br />
-              </Fragment>
-            ))}
-          </div>
-          <div className={styles.blur}>{lorem}</div>
-        </div>
-        <div className={`${styles.content} ${styles.mirror}`}>
-          <div>{lorem + lorem + lorem}</div>
-        </div>
-      </div>
+              if (text.startsWith('**') && text.endsWith('**')) {
+                return (
+                  <span
+                    className={styles.highlight}
+                    style={{ backgroundColor: selected }}
+                    key={index}
+                  >
+                    {text.slice(2, -2)}
+                  </span>
+                );
+              }
+              return text;
+            })}
+            <br />
+          </Fragment>
+        ))}
+      </>
     );
   };
 
-  // function surroundWithLorem() {
-  //   const lorem = "Nullam tempus eget erat a scelerisque. Curabitur ut dolor id est eleifend eleifend ut ut nibh. Nulla leo neque, faucibus non nulla vel, blandit convallis nunc. Pellentesque quis blandit libero. ";
-
-  //   return (
-  //     <div className={styles.textFrame}>
-  //       <div className={styles.content}>
-  //         <div className={styles.blur}>{lorem}</div>
-  //         <div className={styles.quote}>sd</div>
-  //         <div className={styles.blur}>{lorem}</div>
-  //       </div>
-  //       <div className={`${styles.content} ${styles.mirror}`}>
-  //         <div>{lorem + lorem + lorem}</div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading the quote</div>;

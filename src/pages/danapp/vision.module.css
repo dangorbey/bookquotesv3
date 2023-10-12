@@ -15,6 +15,8 @@
   aspect-ratio: 1/1;
   max-width: 540px;
   max-height: 540px;
+  width: 100%;
+  height: auto;
 }
 
 .frame {
@@ -30,8 +32,8 @@
   font-weight: 500;
 
   aspect-ratio: 1/1;
-  max-width: 540px;
-  max-height: 540px;
+  width: 540px;
+  height: 540px;
 
   background-image:
     url('/noise20.png'),

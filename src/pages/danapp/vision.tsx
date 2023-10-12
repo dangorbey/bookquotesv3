@@ -27,22 +27,25 @@ export default function Page() {
     const element = document.querySelector("." + styles.frame);
     const imageContainer = document.getElementById('imageContainer');
 
+    if (imageContainer) {
+      imageContainer.innerHTML = '<div>Loading...</div>';
+    }
+
     if (element) {
       htmlToImage.toPng(element as HTMLElement)
         .then(dataUrl => {
           const img = new Image();
           img.src = dataUrl;
-          img.style.display = 'block'; // Ensure the image is displayed as a block element
-          img.style.width = '100%'; // Optional: set a width or other styles as needed
+          img.style.display = 'block';
+          img.style.width = '100%';
 
           if (imageContainer) {
-            imageContainer.innerHTML = ''; // Clear the image container
-            imageContainer.appendChild(img); // Append the new image
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(img);
           } else {
-            console.error('Image container not found'); // Log an error if the container is not found
+            console.error('Image container not found')
           }
 
-          // Cast element to HTMLElement to avoid TypeScript error
           (element as HTMLElement).style.display = 'none';
         })
         .catch(error => {
@@ -50,7 +53,7 @@ export default function Page() {
         });
     }
 
-  }, []); // Empty dependency array to run this effect only once, when the component mounts
+  }, []);
 
   return (
     <div>
