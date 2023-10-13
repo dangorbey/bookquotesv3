@@ -28,6 +28,9 @@ const Navbar = () => {
             <li className={isCurrentPath("/danapp/vision") ? styles.active : ""}>
               <Link href="/danapp/vision">vision</Link>
             </li>
+            <li className={isCurrentPath("/danapp/loading") ? styles.active : ""}>
+              <Link href="/danapp/loading">loading</Link>
+            </li>
           </ul>
           <div className={styles.button}>
             <UserButton afterSignOutUrl="/" />

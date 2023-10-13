@@ -96,3 +96,33 @@
   background-position: center 60%;
   box-decoration-break: clone;
 }
+
+.loadFrame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  aspect-ratio: 1/1;
+  width: 540px;
+  height: 540px;
+}
+
+.spinner {
+  border: 4px solid #fff;
+  border-radius: 50%;
+  border-top: 4px solid #2a2aad;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
