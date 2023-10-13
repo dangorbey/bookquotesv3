@@ -7,6 +7,14 @@ import { UserButton } from "@clerk/nextjs";
 const Navbar = () => {
   const router = useRouter();
 
+  const navItems = [
+    // { path: "/danapp/highlights", label: "highlights" },
+    { path: "/danapp/dbTests", label: "dbTests" },
+    { path: "/danapp/quotes", label: "quotes" },
+    { path: "/danapp/vision", label: "vision" },
+    { path: "/danapp/loading", label: "loading" }
+  ];
+
   const isCurrentPath = (path: string) => {
     return router.pathname === path;
   };
@@ -16,21 +24,11 @@ const Navbar = () => {
       <div className={styles.container}>
         <div className={styles.menu}>
           <ul className={styles.navList}>
-            <li className={isCurrentPath("/danapp/highlights") ? styles.active : ""}>
-              <Link href="/danapp/highlights">highlights</Link>
-            </li>
-            <li className={isCurrentPath("/danapp/dbTests") ? styles.active : ""}>
-              <Link href="/danapp/dbTests">dbTests</Link>
-            </li>
-            <li className={isCurrentPath("/danapp/quotes") ? styles.active : ""}>
-              <Link href="/danapp/quotes">quotes</Link>
-            </li>
-            <li className={isCurrentPath("/danapp/vision") ? styles.active : ""}>
-              <Link href="/danapp/vision">vision</Link>
-            </li>
-            <li className={isCurrentPath("/danapp/loading") ? styles.active : ""}>
-              <Link href="/danapp/loading">loading</Link>
-            </li>
+            {navItems.map(item => (
+              <li className={isCurrentPath(item.path) ? styles.active : ""} key={item.path}>
+                <Link href={item.path}>{item.label}</Link>
+              </li>
+            ))}
           </ul>
           <div className={styles.button}>
             <UserButton afterSignOutUrl="/" />

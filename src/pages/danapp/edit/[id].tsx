@@ -1,45 +1,37 @@
 import { useRouter } from 'next/router';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '~/utils/api';
 import styles from './id.module.css';
-
+import Navbar from '~/components/Navbar';
+import * as htmlToImage from 'html-to-image';
 
 type Quote = {
   id: number;
   content: string;
 };
 
-const EditQuotePage: React.FC = () => {
-
-  const colors = [
-    "#35ffe5",
-    "#35ff80",
-    "#ff77cd",
-    "#ffe536",
-  ]
-
+const EditQuotePage = () => {
   const router = useRouter();
   const { id } = router.query;
 
   const [quote, setQuote] = useState<Quote | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const [imageURL, setImageURL] = useState<string | null>(null);
 
-  const [selected, setSelected] = useState<string>(colors[0]!);
 
-  const { data, error, isLoading } = api.quotes.getById.useQuery({ id: id as string });
+  const { data, error, isLoading } = api.quotes.getById.useQuery({
+    id: id as string,
+  });
 
   useEffect(() => {
     if (data) {
       setQuote(data.quote);
-      if (data.quote.highlightColor) {
-        setSelected(data.quote.highlightColor);
-      }
     }
   }, [data]);
 
-
+  // updates quote on backend
   const updateMutation = api.quotes.update.useMutation();
 
+  // saves quote and leaves edit window
   const handleSave = () => {
     void (async () => {
       if (!quote) return;
@@ -48,7 +40,7 @@ const EditQuotePage: React.FC = () => {
         const updatedQuote = await updateMutation.mutateAsync({
           id: String(quote.id),
           content: quote.content,
-          highlightColor: selected  // Add this line
+          highlightColor: "#35ffe5"
         });
         setQuote(updatedQuote);
         void router.push('/danapp/quotes');
@@ -58,121 +50,80 @@ const EditQuotePage: React.FC = () => {
     })();
   };
 
+  const generateImageFromQuote = () => {
+    const offscreenElement = document.getElementById("capture");
 
-  const handleEdit = () => {
-    setIsEditing(true);
+    if (offscreenElement) {
+      htmlToImage.toPng(offscreenElement)
+        .then(dataUrl => {
+          setImageURL(dataUrl); // Updating imageURL state with the generated image data URL
+        })
+        .catch(error => {
+          console.error('Error capturing the element:', error);
+        });
+    } else {
+      console.error('Capture element not found');
+    }
   };
 
-  const handleBlur = () => {
-    // Introduce a short delay before exiting edit mode
-    setTimeout(() => {
-      setIsEditing(false);
-    }, 150);
-  };
-
-  const renderParsedContent = (content: string) => {
-    const lorem = "Nullam tempus eget erat a scelerisque. Curabitur ut dolor id est eleifend eleifend ut ut nibh. Nulla leo neque, faucibus non nulla vel, blandit convallis nunc. Pellentesque quis blandit libero. ";
-
-    return (
-      <div className={styles.textFrame}>
-        <div className={styles.content}>
-          <div className={styles.blur}>{lorem + lorem + lorem}</div>
-          <div className={styles.quote}>
-            <br />
-            {content.split('\n').map((line, lineIndex) => (
-              <Fragment key={lineIndex}>
-                {line.split(/(\*\*.*?\*\*)/g).map((text, index) => {
-                  if (!text) return null; // Handle possible undefined
-
-                  if (text.startsWith('**') && text.endsWith('**')) {
-                    return (
-                      <span
-                        className={styles.highlight}
-                        style={{ backgroundColor: selected }}
-                        key={index}
-                      >
-                        {text.slice(2, -2)}
-                      </span>
-                    );
-                  }
-                  return text;
-                })}
-                <br />
-                <br />
-              </Fragment>
-            ))}
-          </div>
-          <div className={styles.blur}>{lorem}</div>
-        </div>
-        <div className={`${styles.content} ${styles.mirror}`}>
-          <div>{lorem + lorem + lorem}</div>
-        </div>
-      </div>
-    );
-  };
-
-  // function surroundWithLorem() {
-  //   const lorem = "Nullam tempus eget erat a scelerisque. Curabitur ut dolor id est eleifend eleifend ut ut nibh. Nulla leo neque, faucibus non nulla vel, blandit convallis nunc. Pellentesque quis blandit libero. ";
-
-  //   return (
-  //     <div className={styles.textFrame}>
-  //       <div className={styles.content}>
-  //         <div className={styles.blur}>{lorem}</div>
-  //         <div className={styles.quote}>sd</div>
-  //         <div className={styles.blur}>{lorem}</div>
-  //       </div>
-  //       <div className={`${styles.content} ${styles.mirror}`}>
-  //         <div>{lorem + lorem + lorem}</div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading the quote</div>;
+  const lorem = "Nullam tempus eget erat a scelerisque. Curabitur ut dolor id est eleifend eleifend ut ut nibh. Nulla leo neque, faucibus non nulla vel, blandit convallis nunc. Pellentesque quis blandit libero. ";
 
   return (
-    <div className={styles.container}>
-      {isEditing ? (
-        <textarea
-          autoFocus
-          className={styles.quoteEdit}
-          value={quote?.content ?? ''}
-          onChange={(e) => setQuote({ ...quote!, content: e.target.value })}
-          onBlur={handleBlur}
-        />
-      ) : (
-        <>
-          <div
-            className={styles.quote}
-            onClick={handleEdit}
-          >
-            <div className={styles.quoteContent}>
-              {renderParsedContent(quote?.content ?? '')}
+    <>
+      <Navbar />
+      <div className={styles.container}>
+        <div className={styles.loadFrame}>
+
+          {imageURL ? (
+            <img src={imageURL} className={styles.generatedImage} alt="Generated Quote" />
+          ) : (
+            <>
+              <div className={styles.spinner}></div>
+              <div className={styles.loadText}>Loading Image...</div>
+            </>
+          )}
+
+        </div>
+        <div className={styles.buttons}>
+          <button onClick={handleSave}>
+            Save
+          </button>
+          <button onClick={generateImageFromQuote}>
+            Generate Image
+          </button>
+        </div >
+      </div>
+
+      <div className={styles.tempCenter}>
+        <div className={styles.offscreenFrame}>
+          <div id="capture" className={styles.capture}>
+            <div className={styles.quoteFrame}>
+
+              <div className={styles.lorem}>{lorem + lorem}</div>
+
+              <br />
+
+              <div className={styles.quote}>
+                {quote?.content}
+              </div>
+
+              <br />
+
+              <div className={styles.lorem}>{lorem + lorem}</div>
+
             </div>
 
-            <span className={styles.hoverText}>Click on the quote to edit</span>
+            <div className={`${styles.content} ${styles.mirror}`}>
+              <div>{lorem + lorem + lorem}</div>
+            </div>
+
           </div>
+        </div>
 
-        </>
-      )}
-
-      <div style={{ height: '20px' }}></div>
-      <div className={styles.colors}>
-        {colors.map((color, index) => (
-          <button
-            key={index}
-            style={{ backgroundColor: color }}
-            className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
-            onClick={() => setSelected(color)}
-          />
-        ))}
       </div>
-      <div style={{ height: '20px' }}></div>
-      <button onClick={handleSave}>Save</button>
-
-    </div >
+    </>
   );
 }
 
 export default EditQuotePage;
+
