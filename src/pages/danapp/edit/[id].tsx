@@ -4,11 +4,23 @@ import { api } from '~/utils/api';
 import styles from './id.module.css';
 import Navbar from '~/components/Navbar';
 import * as htmlToImage from 'html-to-image';
+import { LoremIpsum } from 'lorem-ipsum';
 
 type Quote = {
   id: number;
   content: string;
 };
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4
+  }
+});
 
 const EditQuotePage = () => {
   const router = useRouter();
@@ -66,7 +78,15 @@ const EditQuotePage = () => {
     }
   };
 
-  const lorem = "Nullam tempus eget erat a scelerisque. Curabitur ut dolor id est eleifend eleifend ut ut nibh. Nulla leo neque, faucibus non nulla vel, blandit convallis nunc. Pellentesque quis blandit libero. ";
+  const [loremText, setLoremText] = useState('');
+
+  useEffect(() => {
+    // Only generate the text if it hasn't been generated yet
+    if (!loremText) {
+      const lorem = new LoremIpsum();
+      setLoremText(lorem.generateParagraphs(3));
+    }
+  }, [loremText]);
 
   return (
     <>
@@ -99,7 +119,7 @@ const EditQuotePage = () => {
           <div id="capture" className={styles.capture}>
             <div className={styles.quoteFrame}>
 
-              <div className={styles.lorem}>{lorem + lorem}</div>
+              <div className={styles.lorem}>{loremText}</div>
 
               <br />
 
@@ -109,12 +129,12 @@ const EditQuotePage = () => {
 
               <br />
 
-              <div className={styles.lorem}>{lorem + lorem}</div>
+              <div className={styles.lorem}>{loremText}</div>
 
             </div>
 
             <div className={`${styles.content} ${styles.mirror}`}>
-              <div>{lorem + lorem + lorem}</div>
+              <div>{loremText + loremText}</div>
             </div>
 
           </div>
