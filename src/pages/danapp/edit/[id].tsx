@@ -5,6 +5,7 @@ import styles from './id.module.css';
 import Navbar from '~/components/Navbar';
 import * as htmlToImage from 'html-to-image';
 import { LoremIpsum } from 'lorem-ipsum';
+import EditQuoteModal from '~/components/EditQuoteModal';
 
 type Quote = {
   id: number;
@@ -17,6 +18,7 @@ const EditQuotePage = () => {
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [imageURL, setImageURL] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const { data } = api.quotes.getById.useQuery({
     id: id as string,
@@ -123,6 +125,42 @@ const EditQuotePage = () => {
     ));
   }
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleModalClose = () => {
+    setIsEditing(false);
+  };
+
+  const handleModalSave = async (content: string) => {
+    if (!quote) return;
+
+    try {
+      const updatedQuote = await updateMutation.mutateAsync({
+        id: String(quote.id),
+        content,
+        highlightColor: "#35ffe5"
+      });
+      setQuote(updatedQuote);
+      generateImageFromQuote(); // Re-generate the image
+    } catch (error) {
+      console.error("Failed to update the quote:", error);
+    }
+  };
+
+  const handleDownloadClick = () => {
+    if (imageURL) {
+      const downloadLink = document.createElement('a');
+      downloadLink.href = imageURL;
+      downloadLink.download = `quote_${quote?.id ?? 'unknown'}.png`;
+      downloadLink.click();
+    } else {
+      console.error('No image available for download');
+    }
+  };
+
+
   return (
     <>
       <Navbar />
@@ -141,13 +179,27 @@ const EditQuotePage = () => {
         </div>
         <div className={styles.buttons}>
           <button onClick={handleSave}>
-            Save
+            Save Quote
           </button>
           <button onClick={generateImageFromQuote}>
-            Generate Image
+            Reload Image
+          </button>
+          <button onClick={handleEditClick}>
+            Edit Quote
+          </button>
+          <button onClick={handleDownloadClick}>
+            Download Quote
           </button>
         </div >
       </div>
+
+      {isEditing && (
+        <EditQuoteModal
+          quote={quote}
+          onClose={handleModalClose}
+          onSave={handleModalSave}
+        />
+      )}
 
       <div className={styles.tempCenter}>
         <div className={styles.offscreenFrame}>
