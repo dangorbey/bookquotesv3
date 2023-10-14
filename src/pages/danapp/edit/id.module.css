@@ -160,15 +160,6 @@
   box-decoration-break: clone !important;
 }
 
-/* .highlight {
-  background: linear-gradient(90deg, var(--highlight-color-start, yellow) 0%, var(--highlight-color-middle, yellow) 3%, var(--highlight-color-end, yellow));
-  background-repeat: no-repeat;
-  border-radius: 35px;
-  background-size: 100% 60%;
-  background-position: center 60%;
-  box-decoration-break: clone;
-} */
-
 .hidden {
   display: none;
 }

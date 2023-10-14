@@ -94,7 +94,7 @@ function QuoteListPage() {
         <div className={styles.container}>
           {data.map((fullQuote) => (
             <div className={styles.quote} key={fullQuote.quote.id}>
-              <div>{formatQuoteContent(fullQuote.quote.content, fullQuote.quote.highlightColor ?? "#FFFF77")}</div>
+              <div>{formatQuoteContent(fullQuote.quote.content, fullQuote.quote.highlightColor ?? "rgba(255, 229, 54, 1)")}</div>
               <div style={{ height: '15px' }}></div>
               <Spacer height={15}></Spacer>
               <div className={styles.qButtons}>

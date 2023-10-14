@@ -13,7 +13,7 @@ type Quote = {
   content: string;
 };
 
-const colors = ["#35ffe5", "#35ff80", "#ff77cd", "#ffe536"];
+// const colors = ["#35ffe5", "#35ff80", "#ff77cd", "#ffe536"];
 const rgbaColors = ["rgba(53, 255, 229, 1)", "rgba(53, 255, 128, 1)", "rgba(255, 119, 205, 1)", "rgba(255, 229, 54, 1)"];
 
 const EditQuotePage = () => {
@@ -38,7 +38,7 @@ const EditQuotePage = () => {
     if (data) {
       setQuote(data.quote);
       if (data.quote.highlightColor) {
-        setSelected(data.quote.highlightColor);
+        setSelected(data.quote.highlightColor); // Set selected color from fetched data
       }
     }
   }, [data]);
@@ -83,7 +83,7 @@ const EditQuotePage = () => {
         const updatedQuote = await updateMutation.mutateAsync({
           id: String(quote.id),
           content: quote.content,
-          highlightColor: "#35ffe5"
+          highlightColor: selected
         });
         setQuote(updatedQuote);
         void router.push('/danapp/quotes');
@@ -127,7 +127,7 @@ const EditQuotePage = () => {
           if (part.startsWith('**') && part.endsWith('**')) {
             const matches = selected.match(/^rgba?\((\d+), (\d+), (\d+)(, [\d.]+)?\)$/);
             if (matches) {
-              const [_, r, g, b, a] = matches;
+              const [, r, g, b] = matches;
               const colorStops = [
                 `rgba(${r}, ${g}, ${b}, 1) 0%`,  // Opacity 1
                 `rgba(${r}, ${g}, ${b}, 0.5) 3%`, // Opacity 0.6
@@ -167,7 +167,7 @@ const EditQuotePage = () => {
       const updatedQuote = await updateMutation.mutateAsync({
         id: String(quote.id),
         content,
-        highlightColor: "#35ffe5"
+        highlightColor: selected // Save the selected highlight color
       });
       setQuote(updatedQuote);
       generateImageFromQuote(); // Re-generate the image
