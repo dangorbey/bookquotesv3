@@ -6,7 +6,7 @@ import styles from "./quotes.module.css";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 
-const defaultQuote = "1. Click to edit!\n\n2. Any text you place **within two sets of asterisks** will be highlighted!\n\n3. Have fun!"
+const defaultQuote = "Type your quote here! **Highlight** the important parts!"
 
 function QuoteListPage() {
   const { data, isLoading, refetch } = api.quotes.getUserQuotes.useQuery();
@@ -22,7 +22,7 @@ function QuoteListPage() {
       {
         onSuccess: (data) => {
           if (data?.id) {
-            void router.push(`/danapp/edit/${data.id}`);
+            void router.push(`/danapp/edit/${data.id}?isNew=true`); // Add query parameter here
           } else {
             console.error("Failed to get the ID of the new quote.");
           }

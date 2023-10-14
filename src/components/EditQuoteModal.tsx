@@ -11,9 +11,10 @@ type EditQuoteModalProps = {
   quote: Quote | null;
   onClose: () => void;
   onSave: (content: string) => Promise<void>;
+  isNew: boolean;
 };
 
-const EditQuoteModal: React.FC<EditQuoteModalProps> = ({ quote, onClose, onSave }) => {
+const EditQuoteModal: React.FC<EditQuoteModalProps> = ({ quote, onClose, onSave, isNew }) => {
   const [editedContent, setEditedContent] = useState<string>(quote!.content || '');
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -26,6 +27,12 @@ const EditQuoteModal: React.FC<EditQuoteModalProps> = ({ quote, onClose, onSave 
     }
   }, [editedContent]);
 
+  useEffect(() => {
+    if (isNew && textareaRef.current) {
+      textareaRef.current.focus();
+      textareaRef.current.select();
+    }
+  }, [isNew]);
 
   const handleSaveClick = () => {
     onSave(editedContent).then(() => {

@@ -18,12 +18,18 @@ const rgbaColors = ["rgba(53, 255, 229, 1)", "rgba(53, 255, 128, 1)", "rgba(255,
 
 const EditQuotePage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, new: isNew } = router.query;
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [imageURL, setImageURL] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [selected, setSelected] = useState<string>(rgbaColors[0]!); // State to handle selected color
+
+  useEffect(() => {
+    if (router.query.isNew === "true") {
+      setIsEditing(true);
+    }
+  }, [router.query.isNew]);
 
 
   const { data } = api.quotes.getById.useQuery({
@@ -31,8 +37,24 @@ const EditQuotePage = () => {
   });
 
   useEffect(() => {
-    generateImageFromQuote();
-  }, [selected]);
+    const generateImageWhenReady = () => {
+      const captureElement = document.getElementById("capture");
+
+      if (captureElement && captureElement.children.length > 0) {
+        generateImageFromQuote();
+      }
+    };
+
+    generateImageWhenReady(); // Try generating the image immediately
+
+    // If the image generation was not successful, try again when the whole window has loaded
+    window.addEventListener("load", generateImageWhenReady);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener("load", generateImageWhenReady);
+    };
+  }, [quote, selected]);
 
   useEffect(() => {
     if (data) {
@@ -152,6 +174,9 @@ const EditQuotePage = () => {
     ));
   }
 
+  if (quote === null) {
+    return <div>Loading...</div>; // Showing a loading spinner or some placeholder until the quote is fetched
+  }
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -252,6 +277,7 @@ const EditQuotePage = () => {
           quote={quote}
           onClose={handleModalClose}
           onSave={handleModalSave}
+          isNew={router.query.isNew === "true"}
         />
       )}
 
