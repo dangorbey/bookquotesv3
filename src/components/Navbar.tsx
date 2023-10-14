@@ -9,10 +9,8 @@ const Navbar = () => {
 
   const navItems = [
     // { path: "/danapp/highlights", label: "highlights" },
-    { path: "/danapp/dbTests", label: "dbTests" },
-    { path: "/danapp/quotes", label: "quotes" },
-    { path: "/danapp/vision", label: "vision" },
-    { path: "/danapp/loading", label: "loading" }
+    { path: "/danapp/dbTests", label: "Feed" },
+    { path: "/danapp/quotes", label: "Library" },
   ];
 
   const isCurrentPath = (path: string) => {

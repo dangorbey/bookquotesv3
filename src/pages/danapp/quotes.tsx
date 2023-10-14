@@ -81,7 +81,7 @@ function QuoteListPage() {
           className={styles.createButton}
           onClick={() => { void handleCreateNewQuote(); }}
         >
-          Create a new quote!
+          <span style={{ fontSize: "x-large", paddingRight: "10px" }} >+</span>Create a new quote!
         </button>
 
       </div>
@@ -90,30 +90,32 @@ function QuoteListPage() {
 
       {!data && !isLoading && <div>Something went wrong</div>}
 
-      {data && (
-        <div className={styles.container}>
-          {data.map((fullQuote) => (
-            <div className={styles.quote} key={fullQuote.quote.id}>
-              <div>{formatQuoteContent(fullQuote.quote.content, fullQuote.quote.highlightColor ?? "rgba(255, 229, 54, 1)")}</div>
-              <div style={{ height: '15px' }}></div>
-              <Spacer height={15}></Spacer>
-              <div className={styles.qButtons}>
-                <button className={styles.commonButtonStyle}>
-                  <Link className={styles.edit} href={`/danapp/edit/${fullQuote.quote.id}`}>Edit</Link>
-                </button>
-                <button
-                  className={`${styles.commonButtonStyle} ${styles.deleteButton}`}
-                  onClick={() => handleDeleteQuote(fullQuote.quote.id)}
-                >
-                  Delete
-                </button>
+      {
+        data && (
+          <div className={styles.container}>
+            {data.map((fullQuote) => (
+              <div className={styles.quote} key={fullQuote.quote.id}>
+                <div>{formatQuoteContent(fullQuote.quote.content, fullQuote.quote.highlightColor ?? "rgba(255, 229, 54, 1)")}</div>
+                <div style={{ height: '15px' }}></div>
+                <Spacer height={15}></Spacer>
+                <div className={styles.qButtons}>
+                  <button className={styles.commonButtonStyle}>
+                    <Link className={styles.edit} href={`/danapp/edit/${fullQuote.quote.id}`}>Edit</Link>
+                  </button>
+                  <button
+                    className={`${styles.commonButtonStyle} ${styles.deleteButton}`}
+                    onClick={() => handleDeleteQuote(fullQuote.quote.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-        </div>
-      )}
-    </div>
+          </div>
+        )
+      }
+    </div >
   );
 }
 

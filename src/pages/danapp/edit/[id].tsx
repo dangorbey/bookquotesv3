@@ -176,11 +176,27 @@ const EditQuotePage = () => {
     }
   };
 
+  const generateFileName = (quoteContent: string, downloadCount: number) => {
+    const firstWords = quoteContent.split(' ').slice(0, 2).join('_'); // Taking first two words
+    return `Quote-${firstWords}-${downloadCount}.png`;
+  };
+
+  // Modified handleDownloadClick function
   const handleDownloadClick = () => {
-    if (imageURL) {
+    if (imageURL && quote) {
+      // Getting the download count from local storage
+      const storageKey = `quote_download_count_${quote.id}`;
+      const previousCount = localStorage.getItem(storageKey) ?? '0';
+      const downloadCount = parseInt(previousCount, 10) + 1;
+
+      // Saving the new count back to local storage
+      localStorage.setItem(storageKey, downloadCount.toString());
+
+      // Generating the filename and initiating the download
+      const fileName = generateFileName(quote.content, downloadCount);
       const downloadLink = document.createElement('a');
       downloadLink.href = imageURL;
-      downloadLink.download = `quote_${quote?.id ?? 'unknown'}.png`;
+      downloadLink.download = fileName;
       downloadLink.click();
     } else {
       console.error('No image available for download');
