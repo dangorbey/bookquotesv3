@@ -19,6 +19,12 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
+@media (max-width: 767px) and (orientation: portrait) {
+  .modal {
+    width: 90%;
+  }
+}
+
 .modalTitle {
   font-size: 24px;
   font-weight: 600;

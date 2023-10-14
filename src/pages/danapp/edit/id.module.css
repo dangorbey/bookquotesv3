@@ -129,6 +129,7 @@
   filter: blur(0.5px);
   padding: 15px 0;
   opacity: 40%;
+  color: #281102;
 }
 
 .mirrorWrapper {
