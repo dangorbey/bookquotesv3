@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { api } from '~/utils/api';
 import styles from './id.module.css';
 import Navbar from '~/components/Navbar';
@@ -11,17 +11,6 @@ type Quote = {
   content: string;
 };
 
-const lorem = new LoremIpsum({
-  sentencesPerParagraph: {
-    max: 8,
-    min: 4
-  },
-  wordsPerSentence: {
-    max: 16,
-    min: 4
-  }
-});
-
 const EditQuotePage = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -29,8 +18,7 @@ const EditQuotePage = () => {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [imageURL, setImageURL] = useState<string | null>(null);
 
-
-  const { data, error, isLoading } = api.quotes.getById.useQuery({
+  const { data } = api.quotes.getById.useQuery({
     id: id as string,
   });
 
@@ -39,6 +27,34 @@ const EditQuotePage = () => {
       setQuote(data.quote);
     }
   }, [data]);
+
+  useEffect(() => {
+    // A function to check if all images are loaded
+    const imagesLoaded = () => {
+      const images = document.querySelectorAll("img");
+      for (const img of images) {
+        if (!img.complete) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    // A function to execute when images are loaded
+    const executeWhenImagesLoaded = () => {
+      generateImageFromQuote();
+    };
+
+    // Only execute if quote and images are loaded
+    if (quote && imagesLoaded()) {
+      executeWhenImagesLoaded();
+    } else { // Otherwise, add a load event listener to the window object
+      window.addEventListener("load", executeWhenImagesLoaded);
+      return () => {
+        window.removeEventListener("load", executeWhenImagesLoaded);
+      };
+    }
+  }, [quote]); // Added quote as a dependency
 
   // updates quote on backend
   const updateMutation = api.quotes.update.useMutation();
@@ -68,7 +84,7 @@ const EditQuotePage = () => {
     if (offscreenElement) {
       htmlToImage.toPng(offscreenElement)
         .then(dataUrl => {
-          setImageURL(dataUrl); // Updating imageURL state with the generated image data URL
+          setImageURL(dataUrl);
         })
         .catch(error => {
           console.error('Error capturing the element:', error);
@@ -87,6 +103,25 @@ const EditQuotePage = () => {
       setLoremText(lorem.generateParagraphs(3));
     }
   }, [loremText]);
+
+  function parseContent(content: string) {
+    const lines = content.split(/(?:\r\n|\r|\n)/g);
+    return lines.map((line, i) => (
+      <Fragment key={i}>
+        {line.split(/(\*\*.*?\*\*)/g).map((part, j) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            return (
+              <span className={styles.highlight} key={j}>
+                {part.substring(2, part.length - 2)}
+              </span>
+            );
+          }
+          return part;
+        })}
+        <br />
+      </Fragment>
+    ));
+  }
 
   return (
     <>
@@ -124,7 +159,7 @@ const EditQuotePage = () => {
               <br />
 
               <div className={styles.quote}>
-                {quote?.content}
+                {quote && parseContent(quote.content)}
               </div>
 
               <br />
@@ -133,8 +168,8 @@ const EditQuotePage = () => {
 
             </div>
 
-            <div className={`${styles.content} ${styles.mirror}`}>
-              <div>{loremText + loremText}</div>
+            <div className={styles.mirrorWrapper}>
+              <div className={styles.mirror}>{loremText + loremText}</div>
             </div>
 
           </div>
@@ -146,4 +181,3 @@ const EditQuotePage = () => {
 }
 
 export default EditQuotePage;
-
