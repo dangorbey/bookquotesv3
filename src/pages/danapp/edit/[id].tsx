@@ -1,5 +1,4 @@
 import { MdRefresh, MdOutlineSave, MdEditNote, MdDownloading, MdAspectRatio, MdFormatColorFill } from "react-icons/md";
-import { AiOutlineReload, AiOutlineSave, AiOutlineEdit, AiOutlineDownload, AiOutlineBgColors, AiOutlineLayout } from "react-icons/ai";
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
 import { api } from '~/utils/api';
@@ -9,6 +8,7 @@ import * as htmlToImage from 'html-to-image';
 import { LoremIpsum } from 'lorem-ipsum';
 import EditQuoteModal from '~/components/EditQuoteModal';
 import Spacer from '~/components/Spacer';
+// import { RgbaColorPicker } from "react-colorful";
 
 type Quote = {
   id: number;
@@ -21,11 +21,13 @@ const rgbaColors = ["rgba(53, 255, 229, 1)", "rgba(53, 255, 128, 1)", "rgba(255,
 const EditQuotePage = () => {
   const router = useRouter();
   const { id, new: isNew } = router.query;
+  const [color, setColor] = useState({ r: 53, g: 255, b: 229, a: 1 });
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [imageURL, setImageURL] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [selected, setSelected] = useState<string>(rgbaColors[0]!); // State to handle selected color
+  const [showColorPicker, setShowColorPicker] = useState(false);
 
   useEffect(() => {
     if (router.query.isNew === "true") {
@@ -265,26 +267,37 @@ const EditQuotePage = () => {
             <MdAspectRatio className={styles.icon} />
             <div>Resize</div>
           </button>
-          <button className={styles.actionButton}>
+          <button className={styles.actionButton} onClick={() => setShowColorPicker(!showColorPicker)}>
             <MdFormatColorFill className={styles.icon} />
-            <div>Colors</div>
+            <div>Highlight</div>
           </button>
+
           <button className={styles.actionButton} onClick={handleDownloadClick}>
             <MdDownloading className={styles.icon} />
             <div>Download</div>
           </button>
         </div >
         <Spacer height={20} />
-        <div className={styles.buttons}>
-          {rgbaColors.map((color, index) => (
-            <button
-              key={index}
-              style={{ backgroundColor: color }}
-              className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
-              onClick={() => setSelected(color)}
-            />
-          ))}
-        </div>
+
+        {/* <div className={styles.buttons}> */}
+        {showColorPicker && (
+
+          <div className={styles.colorPicker}>
+            {rgbaColors.map((color, index) => (
+              <button
+                key={index}
+                style={{ backgroundColor: color }}
+                className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
+                onClick={() => setSelected(color)}
+              />
+            ))}
+            {/* <RgbaColorPicker
+              color={color}
+              onChange={setColor}
+            /> */}
+          </div>
+        )}
+
       </div>
 
       {isEditing && (

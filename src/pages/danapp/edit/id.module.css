@@ -59,6 +59,16 @@
   gap: 10px;
 }
 
+.colorPicker {
+  padding: 10px 0;
+  max-width: 540px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 10px;
+}
+
 .actionButton {
   display: flex;
   flex-direction: column;
@@ -69,8 +79,8 @@
   color: #333;
   border: none;
   border-radius: 5px;
-  padding: .75em;
-  width: 32%;
+  padding: .75em 3%;
+  width: 30%;
 }
 
 .icon {
