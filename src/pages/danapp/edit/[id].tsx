@@ -249,6 +249,25 @@ const EditQuotePage = () => {
           )}
 
         </div>
+
+        <Spacer height={10} />
+        {showColorPicker && (
+
+          <div className={styles.colorPicker}>
+            {rgbaColors.map((color, index) => (
+              <button
+                key={index}
+                style={{ backgroundColor: color }}
+                className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
+                onClick={() => setSelected(color)}
+              />
+            ))}
+            {/* <RgbaColorPicker
+    color={color}
+    onChange={setColor}
+  /> */}
+          </div>
+        )}
         <div className={styles.buttons}>
           <button className={styles.actionButton} onClick={generateImageFromQuote}>
             <MdRefresh className={styles.icon} />
@@ -277,26 +296,9 @@ const EditQuotePage = () => {
             <div>Download</div>
           </button>
         </div >
-        <Spacer height={20} />
 
         {/* <div className={styles.buttons}> */}
-        {showColorPicker && (
 
-          <div className={styles.colorPicker}>
-            {rgbaColors.map((color, index) => (
-              <button
-                key={index}
-                style={{ backgroundColor: color }}
-                className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
-                onClick={() => setSelected(color)}
-              />
-            ))}
-            {/* <RgbaColorPicker
-              color={color}
-              onChange={setColor}
-            /> */}
-          </div>
-        )}
 
       </div>
 
