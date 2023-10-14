@@ -6,11 +6,15 @@ import Navbar from '~/components/Navbar';
 import * as htmlToImage from 'html-to-image';
 import { LoremIpsum } from 'lorem-ipsum';
 import EditQuoteModal from '~/components/EditQuoteModal';
+import Spacer from '~/components/Spacer';
 
 type Quote = {
   id: number;
   content: string;
 };
+
+const colors = ["#35ffe5", "#35ff80", "#ff77cd", "#ffe536"];
+const rgbaColors = ["rgba(53, 255, 229, 1)", "rgba(53, 255, 128, 1)", "rgba(255, 119, 205, 1)", "rgba(255, 229, 54, 1)"];
 
 const EditQuotePage = () => {
   const router = useRouter();
@@ -19,14 +23,23 @@ const EditQuotePage = () => {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [imageURL, setImageURL] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [selected, setSelected] = useState<string>(rgbaColors[0]!); // State to handle selected color
+
 
   const { data } = api.quotes.getById.useQuery({
     id: id as string,
   });
 
   useEffect(() => {
+    generateImageFromQuote();
+  }, [selected]);
+
+  useEffect(() => {
     if (data) {
       setQuote(data.quote);
+      if (data.quote.highlightColor) {
+        setSelected(data.quote.highlightColor);
+      }
     }
   }, [data]);
 
@@ -112,11 +125,25 @@ const EditQuotePage = () => {
       <Fragment key={i}>
         {line.split(/(\*\*.*?\*\*)/g).map((part, j) => {
           if (part.startsWith('**') && part.endsWith('**')) {
-            return (
-              <span className={styles.highlight} key={j}>
-                {part.substring(2, part.length - 2)}
-              </span>
-            );
+            const matches = selected.match(/^rgba?\((\d+), (\d+), (\d+)(, [\d.]+)?\)$/);
+            if (matches) {
+              const [_, r, g, b, a] = matches;
+              const colorStops = [
+                `rgba(${r}, ${g}, ${b}, 1) 0%`,  // Opacity 1
+                `rgba(${r}, ${g}, ${b}, 0.5) 3%`, // Opacity 0.6
+                `rgba(${r}, ${g}, ${b}, 0.9)` // Opacity 0.8
+              ];
+              return (
+                <span
+                  style={{
+                    background: `linear-gradient(90deg, ${colorStops.join(', ')})`,
+                  }}
+                  className={styles.highlight}
+                  key={j}>
+                  {part.substring(2, part.length - 2)}
+                </span>
+              );
+            }
           }
           return part;
         })}
@@ -191,6 +218,17 @@ const EditQuotePage = () => {
             Download Quote
           </button>
         </div >
+        <Spacer height={20} />
+        <div className={styles.buttons}>
+          {rgbaColors.map((color, index) => (
+            <button
+              key={index}
+              style={{ backgroundColor: color }}
+              className={`${styles.cButton} ${selected === color ? styles.selected : ''}`}
+              onClick={() => setSelected(color)}
+            />
+          ))}
+        </div>
       </div>
 
       {isEditing && (
