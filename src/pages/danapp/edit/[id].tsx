@@ -1,3 +1,5 @@
+import { MdRefresh, MdOutlineSave, MdEditNote, MdDownloading, MdAspectRatio, MdFormatColorFill } from "react-icons/md";
+import { AiOutlineReload, AiOutlineSave, AiOutlineEdit, AiOutlineDownload, AiOutlineBgColors, AiOutlineLayout } from "react-icons/ai";
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
 import { api } from '~/utils/api';
@@ -14,7 +16,7 @@ type Quote = {
 };
 
 // const colors = ["#35ffe5", "#35ff80", "#ff77cd", "#ffe536"];
-const rgbaColors = ["rgba(53, 255, 229, 1)", "rgba(53, 255, 128, 1)", "rgba(255, 119, 205, 1)", "rgba(255, 229, 54, 1)"];
+const rgbaColors = ["rgba(53, 255, 229, 1)", "rgba(53, 255, 128, 1)", "rgba(255, 119, 205, 1)", "rgba(255, 229, 54, 1)",];
 
 const EditQuotePage = () => {
   const router = useRouter();
@@ -246,17 +248,30 @@ const EditQuotePage = () => {
 
         </div>
         <div className={styles.buttons}>
-          <button onClick={handleSave}>
-            Save Quote
+          <button className={styles.actionButton} onClick={generateImageFromQuote}>
+            <MdRefresh className={styles.icon} />
+            <div>Reload</div>
           </button>
-          <button onClick={generateImageFromQuote}>
-            Reload Image
+          <button className={styles.actionButton} onClick={handleSave}>
+            <MdOutlineSave className={styles.icon} />
+            <div>Save</div>
           </button>
-          <button onClick={handleEditClick}>
-            Edit Quote
+          <button className={styles.actionButton} id={styles.editButton} onClick={handleEditClick}>
+            <MdEditNote className={styles.icon} />
+            <div>Edit</div>
           </button>
-          <button onClick={handleDownloadClick}>
-            Download Quote
+
+          <button className={styles.actionButton}>
+            <MdAspectRatio className={styles.icon} />
+            <div>Resize</div>
+          </button>
+          <button className={styles.actionButton}>
+            <MdFormatColorFill className={styles.icon} />
+            <div>Colors</div>
+          </button>
+          <button className={styles.actionButton} onClick={handleDownloadClick}>
+            <MdDownloading className={styles.icon} />
+            <div>Download</div>
           </button>
         </div >
         <Spacer height={20} />
